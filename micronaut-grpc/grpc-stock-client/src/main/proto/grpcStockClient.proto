@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "pl.jcw.example.grpc";
+option java_outer_classname = "GrpcStockClient";
+option objc_class_prefix = "HLW";
+
+package pl.jcw.example.grpc;
+
+service GrpcStockClientService {
+  rpc send (GrpcStockClientRequest) returns (GrpcStockClientReply) {}
+}
+
+message GrpcStockClientRequest {
+  string name = 1;
+}
+
+message GrpcStockClientReply {
+  string message = 1;
+}
