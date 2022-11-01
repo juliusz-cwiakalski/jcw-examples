@@ -55,6 +55,7 @@ class GrpcStockDataServiceImpl extends StockDataServiceImplBase {
 
       @Override
       public void onCompleted() {
+        responseObserver.onNext(Empty.newBuilder().build());
         responseObserver.onCompleted();
       }
     };
