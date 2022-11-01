@@ -1,5 +1,6 @@
 syntax = "proto3";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 
 option java_multiple_files = true;
 option java_package = "pl.jcw.example.grpc";
@@ -32,13 +33,14 @@ Container for any symbol data,
 can transfer one data item at once
  */
 message SymbolData {
-  string symbolId = 1;
-  uint64 timestamp = 2;
+  string symbol_id = 1;
+  google.protobuf.Timestamp timestamp = 2;
   oneof data {
     Quotation quotation = 3;
     News news = 4;
     CompanyDetails details = 5;
   }
+
 }
 
 message Quotation {
@@ -62,9 +64,9 @@ message News {
 details about company
  */
 message CompanyDetails {
-  string symbolId = 1;
+  string symbol_id = 1;
   string name = 2;
   string industry = 3;
-  string webPage = 4;
-  string headOffice = 5;
+  string web_page = 4;
+  string head_office = 5;
 }

@@ -1,9 +1,11 @@
 package pl.jcw.example.grpc;
 
 import com.google.protobuf.Empty;
+import com.google.protobuf.Timestamp;
 import io.grpc.stub.StreamObserver;
 import io.micronaut.scheduling.annotation.Scheduled;
 import jakarta.inject.Singleton;
+import java.time.Instant;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
@@ -31,7 +33,7 @@ public class QuotationsProvider {
     return new QueuedData(
         timestamp,
         SymbolData.newBuilder()
-            .setTimestamp(timestamp)
+            .setTimestamp(toTimestamp(Instant.now()))
             .setSymbolId(symbolId)
             .setQuotation(nextQuotation(random.nextDouble(500) + 10))
             .build());
@@ -98,10 +100,16 @@ public class QuotationsProvider {
     SymbolData lastData = last.data();
     SymbolData nextData =
         lastData.toBuilder()
-            .setTimestamp(System.currentTimeMillis())
+            .setTimestamp(toTimestamp(Instant.now()))
             .setQuotation(nextQuotation(lastData.getQuotation().getBid()))
             .build();
     return new QueuedData(nextPublishTime, nextData);
+  }
+
+  private Timestamp toTimestamp(Instant myInstant) {
+    return Timestamp.newBuilder()
+        .setSeconds(myInstant.getEpochSecond())
+        .setNanos(myInstant.getNano()).build();
   }
 
   private Quotation nextQuotation(double lastBid) {

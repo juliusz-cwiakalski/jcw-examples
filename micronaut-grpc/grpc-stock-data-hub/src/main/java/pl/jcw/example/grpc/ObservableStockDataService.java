@@ -2,6 +2,8 @@ package pl.jcw.example.grpc;
 
 import io.micronaut.core.util.CollectionUtils;
 import jakarta.inject.Singleton;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,8 +27,16 @@ public class ObservableStockDataService {
   private final Map<String, Set<StockDataObserver>> observers = new ConcurrentHashMap<>();
 
   public void publish(SymbolData data) {
-    long dataAge = System.currentTimeMillis() - data.getTimestamp();
-    log.info("Publishing {} for symbol '{}' that is {}ms old",getDataType(data).orElse(null), data.getSymbolId(), dataAge);
+    Instant dataTimestamp =
+        Instant.ofEpochSecond(data.getTimestamp().getSeconds(), data.getTimestamp().getNanos());
+    Duration dataAge = Duration.between(dataTimestamp, Instant.now());
+    double durationAgeMillis = dataAge.toNanos() / 1000000.0;
+    log.info(
+        "Publishing {} for symbol '{}' that is {}ms old, serialized message size is {} bytes",
+        getDataType(data).orElse(null),
+        data.getSymbolId(),
+        durationAgeMillis,
+        data.getSerializedSize());
     stockData.computeIfAbsent(data.getSymbolId(), id -> new StockDataStore()).storeData(data);
   }
 
