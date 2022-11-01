@@ -2,6 +2,8 @@ package pl.jcw.example.grpc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.google.protobuf.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -83,6 +85,12 @@ class ObservableStockDataServiceTest {
   }
 
   private Builder dataBuilder() {
-    return SymbolData.newBuilder().setTimestamp(System.currentTimeMillis()).setSymbolId(SYMBOL_ID);
+    return SymbolData.newBuilder().setTimestamp(toTimestamp(Instant.now())).setSymbolId(SYMBOL_ID);
+  }
+
+  private Timestamp toTimestamp(Instant myInstant) {
+    return Timestamp.newBuilder()
+        .setSeconds(myInstant.getEpochSecond())
+        .setNanos(myInstant.getNano()).build();
   }
 }

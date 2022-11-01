@@ -28,7 +28,7 @@ dependencies {
 
 
 application {
-    mainClass.set("pl.jcw.example.grpc.Application")
+    mainClass.set("pl.jcw.example.grpc.StockDataHubApplication")
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("17")
@@ -60,6 +60,3 @@ micronaut {
         annotations("pl.jcw.example.grpc.*")
     }
 }
-
-
-

@@ -51,7 +51,11 @@ public class QuotationsProvider {
         && dataQueue.peek().nextTimestamp() < System.currentTimeMillis()) {
       QueuedData nextData = nextData(dataQueue.poll());
       dataQueue.add(nextData);
-      log.info("Generated: {}", nextData);
+      log.info(
+          "Generated quote for '{}' - bid: {}, ask: {}",
+          nextData.data.getSymbolId(),
+          nextData.data.getQuotation().getBid(),
+          nextData.data.getQuotation().getAsk());
       sendToDataHub(nextData.data);
     }
   }
@@ -109,7 +113,8 @@ public class QuotationsProvider {
   private Timestamp toTimestamp(Instant myInstant) {
     return Timestamp.newBuilder()
         .setSeconds(myInstant.getEpochSecond())
-        .setNanos(myInstant.getNano()).build();
+        .setNanos(myInstant.getNano())
+        .build();
   }
 
   private Quotation nextQuotation(double lastBid) {
