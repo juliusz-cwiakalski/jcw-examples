@@ -1,0 +1,71 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "pl.jcw.example.grpc";
+option java_outer_classname = "GrpcStockData";
+option objc_class_prefix = "HLW";
+
+package pl.jcw.example.grpc;
+
+service StockDataService {
+  rpc subscribe(stream SymbolDataRequest) returns (stream SymbolData) {}
+  rpc publish(stream SymbolData) returns (google.protobuf.Empty) {}
+  rpc getAllSymbols(google.protobuf.Empty) returns (stream CompanyDetails) {}
+  rpc getAllData(google.protobuf.Empty) returns (stream SymbolData) {}
+}
+
+message SymbolDataRequest {
+  string symbolId = 1;
+  repeated DataType types = 2;
+
+  enum DataType {
+    ALL = 0;
+    QUOTATION = 1;
+    NEWS = 2;
+    DETAILS = 3;
+  }
+}
+
+/**
+Container for any symbol data,
+can transfer one data item at once
+ */
+message SymbolData {
+  string symbolId = 1;
+  uint64 timestamp = 2;
+  oneof data {
+    Quotation quotation = 3;
+    News news = 4;
+    CompanyDetails details = 5;
+  }
+
+}
+
+message Quotation {
+  double bid = 1;
+  double ask = 2;
+}
+
+message News {
+  string message = 1;
+  string source = 2;
+  NewsCategory category = 3;
+
+  enum NewsCategory {
+    NEUTRAL = 0;
+    POSITIVE = 1;
+    NEGATIVE = 2;
+  }
+}
+
+/**
+details about company
+ */
+message CompanyDetails {
+  string symbolId = 1;
+  string name = 2;
+  string industry = 3;
+  string webPage = 4;
+  string headOffice = 5;
+}

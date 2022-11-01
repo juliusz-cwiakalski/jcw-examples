@@ -25,6 +25,8 @@ public class ObservableStockDataService {
   private final Map<String, Set<StockDataObserver>> observers = new ConcurrentHashMap<>();
 
   public void publish(SymbolData data) {
+    long dataAge = System.currentTimeMillis() - data.getTimestamp();
+    log.info("Publishing {} for symbol '{}' that is {}ms old",getDataType(data).orElse(null), data.getSymbolId(), dataAge);
     stockData.computeIfAbsent(data.getSymbolId(), id -> new StockDataStore()).storeData(data);
   }
 
