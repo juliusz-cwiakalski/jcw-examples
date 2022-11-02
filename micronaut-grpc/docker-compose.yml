@@ -6,8 +6,8 @@ services:
     build: ./grpc-stock-data-hub
     ports:
       - 40051:50051
-#    environment:
-#      JAVA_OPTS: "-Xmx512m"
+    environment:
+      JAVA_OPTS: "-Xmx512m -XX:MaxDirectMemorySize=256m"
     networks:
       - internal
 
@@ -15,9 +15,9 @@ services:
     image: docker.jcw.pl/grpc-stock-quotations-provider:1
     build: ./grpc-stock-quotations-provider
     ports:
-      - 40052:50052
+      - 40052:50051
     environment:
-#      JAVA_OPTS: "-Xmx512m"
+      JAVA_OPTS: "-Xmx512m -XX:MaxDirectMemorySize=256m"
       GRPC_CHANNELS_STOCK_DATA_HUB_ADDRESS: "grpc-stock-data-hub:50051"
     networks:
       - internal

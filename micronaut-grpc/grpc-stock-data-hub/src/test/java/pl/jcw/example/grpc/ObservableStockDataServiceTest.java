@@ -91,6 +91,7 @@ class ObservableStockDataServiceTest {
   private Timestamp toTimestamp(Instant myInstant) {
     return Timestamp.newBuilder()
         .setSeconds(myInstant.getEpochSecond())
-        .setNanos(myInstant.getNano()).build();
+        .setNanos(myInstant.getNano())
+        .build();
   }
 }

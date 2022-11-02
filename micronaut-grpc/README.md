@@ -7,3 +7,5 @@ mn create-grpc-app --build=gradle --jdk=17 --lang=java --test=junit \
   --features=lombok,mockito,assertj,logback \
   pl.jcw.example.grpc.grpc-stock-data-hub
 ```
+
+https://sultanov.dev/blog/securing-java-grpc-services-with-jwt-based-authentication/

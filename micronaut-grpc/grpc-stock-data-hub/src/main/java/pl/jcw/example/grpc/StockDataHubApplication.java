@@ -4,6 +4,9 @@ import io.micronaut.runtime.Micronaut;
 
 public class StockDataHubApplication {
   public static void main(String[] args) {
-    Micronaut.build(args).eagerInitSingletons(true).mainClass(StockDataHubApplication.class).start();
+    Micronaut.build(args)
+        .eagerInitSingletons(true)
+        .mainClass(StockDataHubApplication.class)
+        .start();
   }
 }

@@ -4,12 +4,12 @@ FROM gradle:7.5.1-jdk17 AS build
 ## cache dependencies
 COPY --chown=gradle:gradle ./build.gradle ./gradle.properties /home/gradle/src/
 WORKDIR /home/gradle/src
-RUN gradle dependencies --no-daemon
+RUN gradle dependencies
 ## end of dependencies caching
 
 ## Actual build
 COPY --chown=gradle:gradle ./ /home/gradle/src
-RUN gradle build --no-daemon
+RUN gradle build
 
 # provides ping and other commands
 FROM busybox:stable-musl as busybox
