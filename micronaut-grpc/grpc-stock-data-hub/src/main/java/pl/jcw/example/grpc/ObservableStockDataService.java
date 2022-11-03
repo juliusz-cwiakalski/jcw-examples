@@ -52,7 +52,7 @@ public class ObservableStockDataService {
   }
 
   @RequiredArgsConstructor
-  public class StockDataObserver implements AutoCloseable {
+  public class StockDataObserver {
     private static final AtomicInteger idGenerator = new AtomicInteger();
 
     private final int id = idGenerator.getAndIncrement();
@@ -110,11 +110,6 @@ public class ObservableStockDataService {
 
     private void stopObserving(String symbolId) {
       observers.get(symbolId).remove(this);
-    }
-
-    @Override
-    public void close() {
-      stopSubscriptions();
     }
 
     @Override

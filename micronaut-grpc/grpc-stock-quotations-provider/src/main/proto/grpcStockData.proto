@@ -5,7 +5,6 @@ import "google/protobuf/timestamp.proto";
 option java_multiple_files = true;
 option java_package = "pl.jcw.example.grpc";
 option java_outer_classname = "GrpcStockData";
-option objc_class_prefix = "HLW";
 
 package pl.jcw.example.grpc;
 
