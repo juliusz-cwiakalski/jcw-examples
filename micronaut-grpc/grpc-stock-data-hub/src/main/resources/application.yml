@@ -1,0 +1,6 @@
+micronaut:
+  application:
+    name: grpcStockDataHub
+grpc:
+  server:
+    port: 50051

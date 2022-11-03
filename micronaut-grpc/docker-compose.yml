@@ -1,0 +1,37 @@
+version: "3.2"
+services:
+
+  data-hub:
+    image: docker.jcw.pl/grpc-stock-data-hub:1
+    build: ./grpc-stock-data-hub
+    ports:
+      - 40051:50051
+    environment:
+      JAVA_OPTS: "-Xmx1024m -XX:MaxDirectMemorySize=512m"
+    networks:
+      - internal
+
+  quotations-provider:
+    image: docker.jcw.pl/grpc-stock-quotations-provider:1
+    build: ./grpc-stock-quotations-provider
+    ports:
+      - 40052:50051
+    environment:
+      JAVA_OPTS: "-Xmx1024m -XX:MaxDirectMemorySize=512m"
+#      GRPC_CHANNELS_STOCK_DATA_HUB_ADDRESS: "data-hub:50051"
+      GRPC_CHANNELS_STOCK_DATA_HUB_ADDRESS: "api-gateway:80"
+    networks:
+      - internal
+
+  api-gateway:
+    image: docker.jcw.pl/grpc-api-gateway:1
+    build: ./grpc-api-gateway
+    ports:
+      - 40050:80
+    environment:
+      STOCK_DATA_HUB_ADDRESS: "data-hub:50051"
+    networks:
+      - internal
+
+networks:
+  internal:
