@@ -1,0 +1,7 @@
+# datasource - test containers postgresql
+spring:
+  datasource:
+#    url: jdbc:tc:postgresql:11.1:///test?TC_INITSCRIPT=bdd-mutation-testing/src/main/resources/schema.sql
+    url: jdbc:tc:postgresql:16.0:///test
+server:
+  port: 8081
