@@ -1,0 +1,7 @@
+version: '3.6'
+services:
+
+  mock:
+    image: holomekc/wiremock-gui
+    ports:
+      - 9555:8080
