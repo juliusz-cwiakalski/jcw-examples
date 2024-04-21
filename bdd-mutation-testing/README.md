@@ -1,6 +1,8 @@
-# Full Spectrum Software Delivery and Testing: Mastering Modern Development with BDD, Modularity, and Beyond
+# Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond
 
 ## Introduction
+
+**Note**: Short on time? Read **TL-TR** sections to get straight to the point. ;-) 
 
 In the rapidly evolving world of software development, mastering a spectrum of testing and development methodologies is
 crucial for delivering high-quality software.
@@ -28,19 +30,20 @@ the article aims to provide a blueprint for a streamlined, effective development
 suitable for projects of any size in today’s fast-paced tech environment.
 
 **Table of contents**
+
 <!-- TOC -->
-* [Full Spectrum Software Delivery and Testing: Mastering Modern Development with BDD, Modularity, and Beyond](#full-spectrum-software-delivery-and-testing-mastering-modern-development-with-bdd-modularity-and-beyond)
+* [Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond](#full-spectrum-software-testing-mastering-modern-development-with-bdd-modularity-and-beyond)
   * [Introduction](#introduction)
   * [The Role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
   * [Building a Modular Architecture](#building-a-modular-architecture)
   * [Comprehensive Testing: Unit to Integration](#comprehensive-testing-unit-to-integration)
   * [Enhancing Reliability with Mutation Testing](#enhancing-reliability-with-mutation-testing)
   * [Automating Code Quality](#automating-code-quality)
-  * [[TLTR] Delivery Process Steps Summary](#tltr-delivery-process-steps-summary)
+  * [[TL-TR] Delivery Process Steps Summary](#tl-tr-delivery-process-steps-summary)
   * [Example Project Introduction](#example-project-introduction)
-  * [[TLTR] Project Structure and Execution](#tltr-project-structure-and-execution)
+  * [[TL-TR] Project Structure and Execution](#tl-tr-project-structure-and-execution)
   * [Key Lessons and Evolving Strategies](#key-lessons-and-evolving-strategies)
-  * [Final Thoughts and Future Directions](#final-thoughts-and-future-directions)
+  * [[TL-TR] Final Thoughts and Future Directions](#tl-tr-final-thoughts-and-future-directions)
   * [Appendix and Additional Resources](#appendix-and-additional-resources)
   * [TODO](#todo)
 <!-- TOC -->
@@ -55,11 +58,21 @@ suitable for projects of any size in today’s fast-paced tech environment.
 
 ## Automating Code Quality
 
-## [TLTR] Delivery Process Steps Summary
+## [TL-TR] Delivery Process Steps Summary
+
+1. Start with business need / problem summary
+2. Design what components must be modified and what changes are required
+3. Describe in BDD terms the expected behaviors of the components that have to be changed
+4. Detailed review of BDD scenarios done by developers / QAs / business stakeholders
+5. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
+6. Implement module unit BDD scenarios (design the module facade API).
+7. Implement the module facade
+8. Implement BDD integration tests for key scenarios
+9. Verify coverage and test strength
 
 ## Example Project Introduction
 
-## [TLTR] Project Structure and Execution
+## [TL-TR] Project Structure and Execution
 
 ## Key Lessons and Evolving Strategies
 
@@ -71,10 +84,12 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - integration tests fits CRUDs, unit tests when there's logic
 - there are two types of tests - fast and slow
 - unit and integration tests alone are not enough -> e2e / contract testing / manual testing still needed
-- code coverage alone is dangerous! 
+- code coverage alone is dangerous!
+- test execution and time matters! (time budget etc)
+- some tests can be shared in unit and integation tests (spock traits)
 - ...
 
-## Final Thoughts and Future Directions
+## [TL-TR] Final Thoughts and Future Directions
 
 ## Appendix and Additional Resources
 
@@ -84,14 +99,17 @@ This section summarizes steps that are required to prepare the example project a
 
 - [x] Initial project setup
 - [x] Prepare ToC
-- [ ] Describe development process
-- [ ] Document high level requirements
+- [x] Describe a development process (TL-TR) high level
+- [ ] Document high level requirements for the example project
 - [ ] Describe functional design of the example solution
-- [ ] Describe project structure
 - [ ] Rewrite high level requirements as BDD Spock specification
-- [ ] Implement modules unit tests
+- [ ] Implement modules unit tests (and design the modules API)
 - [ ] Implement example REST API
+- [ ] Implement example Kafka integration (in/out)
+- [ ] Implement example external system integration via REST
 - [ ] Implement integration tests for key functionalities
+- [ ] Add more details to development process steps
+- [ ] Describe project structure
 - [ ] Describe basic terms: BDD, mutational testing
 - [ ] Describe some history and evolution of approaches I take
 - [ ] List of useful resources
@@ -100,4 +118,4 @@ This section summarizes steps that are required to prepare the example project a
 - [ ] Comment on alternative tools (Gherkin, other mutation testing frameworks)
 - [ ] Ask friends for review and feedback ;)
 - [ ] Prepare tags / keywords
-- [ ] Prepare maven setup 
+- [ ] Prepare Maven setup 
