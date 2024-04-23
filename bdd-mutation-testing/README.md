@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**Note**: Short on time? Read **TL-TR** sections to get straight to the point. ;-) 
+**Note**: Short on time? Read **TL-TR** sections to get straight to the point. ;-)
 
 In the rapidly evolving world of software development, mastering a spectrum of testing and development methodologies is
 crucial for delivering high-quality software.
@@ -60,17 +60,49 @@ suitable for projects of any size in today’s fast-paced tech environment.
 
 ## [TL-TR] Delivery Process Steps Summary
 
-1. Start with business need / problem summary
-2. Design what components must be modified and what changes are required
-3. Describe in BDD terms the expected behaviors of the components that have to be changed
-4. Detailed review of BDD scenarios done by developers / QAs / business stakeholders
-5. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
-6. Implement module unit BDD scenarios (design the module facade API).
-7. Implement the module facade
-8. Implement BDD integration tests for key scenarios
-9. Verify coverage and test strength
+1. Start with business need definition
+    - Describe the problem the software should tackle with
+    - Define key objectives
+    - Define high-level features or stories that software should support
+2. Design what modules must be modified and what changes are required
+    - List of components and their responsibilities
+    - Diagram explaining the dependencies
+    - Processes description (and diagram if required) 
+3. Select functionality subset for iteration, and:
+   1. Describe in BDD terms the expected behaviors of the components that have to be changed
+   2. Detailed review of BDD scenarios done by developers / QAs / business stakeholders
+   3. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
+   4. Implement module unit BDD scenarios (design the module facade API).
+   5. Implement the module facade
+   6. Implement BDD integration tests for key scenarios
+   7. Verify coverage and test strength (CI Quality gate)
 
 ## Example Project Introduction
+
+Usually, tutorials and articles demonstrating some technique use simple examples
+not to distract the reader from the main point.
+The Goal of this article is to provide the full working solution of the delivery process which is very complex in
+nature.
+I decided to build a more complex example following the process described above,
+so it not only presents the techniques like BDD or mutation testing,
+but it also presents the proposed process in practice.
+The project's Git history may be reviewed to see what the steps are.
+Please note that implementation will not provide full features scope but it
+(and Git history) will demonstrate how such a project could be developed.
+
+- **Step 1 example: Definition of a business problem and main features of loyalty program solution**
+  - review [step1-business-problem.md](step1-business-problem.md)
+- **Step 2 example: Components design of loyalty program solution**
+  - review ...
+- **Step 3.1 - 3.3 example: BDD scenarios specification points collecting module**
+  - Checkout git tag `XYZ`
+  - build and review Spock reports considering business perspective
+- **Step 3.4 example: Implement module unit BDD scenarios and design module facade API**
+  - Checkout git tag `XYZ`
+- **Step 3.5 example: Implement the module facade**
+  - Checkout git tag `XYZ`
+- **Step 3.6 example: Implement the module facade**
+  - Checkout git tag `XYZ`
 
 ## [TL-TR] Project Structure and Execution
 
@@ -87,6 +119,9 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - code coverage alone is dangerous!
 - test execution and time matters! (time budget etc)
 - some tests can be shared in unit and integation tests (spock traits)
+- components should be responsible for logic (verbs) not for things (nouns)
+- observability is important
+- testing on production is also worth considering
 - ...
 
 ## [TL-TR] Final Thoughts and Future Directions
