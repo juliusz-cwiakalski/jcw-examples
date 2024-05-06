@@ -67,15 +67,17 @@ suitable for projects of any size in today’s fast-paced tech environment.
 2. Design what modules must be modified and what changes are required
     - List of components and their responsibilities
     - Diagram explaining the dependencies
-    - Processes description (and diagram if required) 
+    - Processes description (and diagram if required)
 3. Select functionality subset for iteration, and:
-   1. Describe in BDD terms the expected behaviors of the components that have to be changed
-   2. Detailed review of BDD scenarios done by developers / QAs / business stakeholders
-   3. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
-   4. Implement module unit BDD scenarios (design the module facade API).
-   5. Implement the module facade
-   6. Implement BDD integration tests for key scenarios
-   7. Verify coverage and test strength (CI Quality gate)
+    1. Extend the design with process(es) description to make sure that process aspects relevant for iteration are clear
+       and complete
+    2. Describe in BDD terms the expected behaviors of the components that have to be changed
+    3. Detailed review of BDD scenarios done by developers / QAs / business stakeholders
+    4. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
+    5. Implement module unit BDD scenarios (design the module facade API).
+    6. Implement the module facade
+    7. Implement BDD integration tests for key scenarios
+    8. Verify coverage and test strength (CI Quality gate)
 
 ## Example Project Introduction
 
@@ -135,8 +137,9 @@ This section summarizes steps that are required to prepare the example project a
 - [x] Initial project setup
 - [x] Prepare ToC
 - [x] Describe a development process (TL-TR) high level
-- [ ] Document high level requirements for the example project
-- [ ] Describe functional design of the example solution
+- [x] Document high level requirements for the example project
+- [x] Describe design of the example solution
+- [ ] Extend design with processes description, that will be extended in the iteration
 - [ ] Rewrite high level requirements as BDD Spock specification
 - [ ] Implement modules unit tests (and design the modules API)
 - [ ] Implement example REST API
