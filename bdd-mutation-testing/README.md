@@ -67,7 +67,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 2. Design what modules must be modified and what changes are required
     - List of components and their responsibilities
     - Diagram explaining the dependencies
-    - Processes description (and diagram if required)
+    - Main processes description (and diagrams if required)
 3. Select functionality subset for iteration, and:
     1. Extend the design with process(es) description to make sure that process aspects relevant for iteration are clear
        and complete
@@ -139,7 +139,7 @@ This section summarizes steps that are required to prepare the example project a
 - [x] Describe a development process (TL-TR) high level
 - [x] Document high level requirements for the example project
 - [x] Describe design of the example solution
-- [ ] Extend design with processes description, that will be extended in the iteration
+- [x] Extend design with processes description, that will be extended in the iteration
 - [ ] Rewrite high level requirements as BDD Spock specification
 - [ ] Implement modules unit tests (and design the modules API)
 - [ ] Implement example REST API
