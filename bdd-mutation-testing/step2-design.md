@@ -28,6 +28,7 @@ requirements should result in local changes (modification of single exciting mod
   from `retrieve-customer-tier` to tailor reward offerings to individual customer tiers.
 - `redeem-points` - Allows customers to redeem their accumulated points for rewards. This module works closely
   with `manage-rewards` to ensure redemption options are updated and aligned with current offerings.
+  It also provides current balance of redeemable points.
 - `offer-exclusive-deals` - Provides VIP customers with exclusive offers and early access to promotions, depending on
   their loyalty status, which is determined by `retrieve-customer-tier`.
 - `track-customer-activity` - Monitors customer booking activities and spending to support tier upgrades or downgrades.

@@ -95,16 +95,21 @@ Please note that implementation will not provide full features scope but it
 - **Step 1 example: Definition of a business problem and main features of loyalty program solution**
   - review [step1-business-problem.md](step1-business-problem.md)
 - **Step 2 example: Components design of loyalty program solution**
-  - review ...
-- **Step 3.1 - 3.3 example: BDD scenarios specification points collecting module**
-  - Checkout git tag `XYZ`
-  - build and review Spock reports considering business perspective
-- **Step 3.4 example: Implement module unit BDD scenarios and design module facade API**
-  - Checkout git tag `XYZ`
-- **Step 3.5 example: Implement the module facade**
-  - Checkout git tag `XYZ`
-- **Step 3.6 example: Implement the module facade**
-  - Checkout git tag `XYZ`
+  - Checkout git tag `bdd-step2`
+  - review [step2-design.md](step2-design.md)
+- **Iteration 1 - implementing `accumulate-points`**
+  - **Step 3.1 example: earning points process described in design**
+    - Checkout git tag `bdd-iteration1-step3.1`
+    - review [step2-design.md](step2-design.md) 
+  - **Step 3.2 example: BDD specification of `accumulate-points`**
+    - Checkout git tag `bdd-iteration1-step3.2`
+    - build with `./gradlew b` and review [Spock reports](build/spock-reports/index.html) considering business perspective
+  - **Step 3.4 example: Implement module unit BDD scenarios and design module facade API**
+    - Checkout git tag `XYZ`
+  - **Step 3.5 example: Implement the module facade**
+    - Checkout git tag `XYZ`
+  - **Step 3.6 example: Implement the module facade**
+    - Checkout git tag `XYZ`
 
 ## [TL-TR] Project Structure and Execution
 
@@ -124,6 +129,7 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - components should be responsible for logic (verbs) not for things (nouns)
 - observability is important
 - testing on production is also worth considering
+- integration testing via facade vs REST/message broker etc?
 - ...
 
 ## [TL-TR] Final Thoughts and Future Directions
