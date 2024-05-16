@@ -77,7 +77,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
     5. Implement module unit BDD scenarios (design the module facade API).
     6. Implement the module facade
     7. Implement BDD integration tests for key scenarios
-    8. Verify coverage and test strength (CI Quality gate)
+    8. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate) 
 
 ## Example Project Introduction
 
@@ -93,21 +93,22 @@ Please note that implementation will not provide full features scope but it
 (and Git history) will demonstrate how such a project could be developed.
 
 - **Step 1 example: Definition of a business problem and main features of loyalty program solution**
-  - review [step1-business-problem.md](step1-business-problem.md)
+  - Checkout tag: `git checkout bdd-step1`
+  - Review [step1-business-problem.md](step1-business-problem.md)
 - **Step 2 example: Components design of loyalty program solution**
-  - Checkout git tag `bdd-step2`
-  - review [step2-design.md](step2-design.md)
+  - Checkout tag: `git checkout bdd-step2`
+  - Review [step2-design.md](step2-design.md)
 - **Iteration 1 - implementing `accumulate-points`**
   - **Step 3.1 example: earning points process described in design**
-    - Checkout git tag `bdd-iteration1-step3.1`
-    - review [step2-design.md](step2-design.md) 
+    - Checkout tag: `git checkout bdd-iteration1-step3.1`
+    - Review [step2-design.md](step2-design.md) 
   - **Step 3.2 example: BDD specification of `accumulate-points`**
-    - Checkout git tag `bdd-iteration1-step3.2`
-    - build with `./gradlew b` and review [Spock reports](build/spock-reports/index.html) considering business perspective
-  - **Step 3.4 example: Implement module unit BDD scenarios and design module facade API**
-    - Checkout git tag `XYZ`
-  - **Step 3.5 example: Implement the module facade**
-    - Checkout git tag `XYZ`
+    - Checkout tag: `git checkout bdd-iteration1-step3.2`
+    - Build with `./gradlew b` and review [Spock reports](build/spock-reports/index.html) considering business perspective
+  - **Step 3.3 + 3.4 example: review of BDD scenarios + correct mapping of scenarios to modules** 
+    - done in step 3.2 -> `git checkout bdd-iteration1-step3.2`
+  - **Step 3.5 example: Implement module unit BDD scenarios and design module facade API**
+    - Checkout tag: `git checkout bdd-iteration1-step3.5`
   - **Step 3.6 example: Implement the module facade**
     - Checkout git tag `XYZ`
 
@@ -130,6 +131,7 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - observability is important
 - testing on production is also worth considering
 - integration testing via facade vs REST/message broker etc?
+- enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade immediately)
 - ...
 
 ## [TL-TR] Final Thoughts and Future Directions
@@ -146,8 +148,8 @@ This section summarizes steps that are required to prepare the example project a
 - [x] Document high level requirements for the example project
 - [x] Describe design of the example solution
 - [x] Extend design with processes description, that will be extended in the iteration
-- [ ] Rewrite high level requirements as BDD Spock specification
-- [ ] Implement modules unit tests (and design the modules API)
+- [x] Rewrite high level requirements as BDD Spock specification
+- [x] Implement modules unit tests (and design the modules API)
 - [ ] Implement example REST API
 - [ ] Implement example Kafka integration (in/out)
 - [ ] Implement example external system integration via REST
@@ -162,4 +164,5 @@ This section summarizes steps that are required to prepare the example project a
 - [ ] Comment on alternative tools (Gherkin, other mutation testing frameworks)
 - [ ] Ask friends for review and feedback ;)
 - [ ] Prepare tags / keywords
-- [ ] Prepare Maven setup 
+- [ ] Prepare Maven setup
+

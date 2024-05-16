@@ -64,10 +64,16 @@ spotless {
   }
 
   groovy {
-    excludeJava() // excludes all Java sources within the Groovy source dirs from formatting
-    greclipse() // has its own section below
-    indentWithSpaces(2)
+    target '**/*.groovy'
+    greclipse().configFile 'eclipse-java-google-style.xml' // for Groovy files
   }
+
+  //  groovy {
+  //    excludeJava() // excludes all Java sources within the Groovy source dirs from formatting
+  ////    greclipse() // has its own section below
+  ////    indentWithSpaces(2)
+  //    googleJavaFormat()
+  //  }
   groovyGradle {
     target '*.gradle' // default target of groovyGradle
     greclipse()

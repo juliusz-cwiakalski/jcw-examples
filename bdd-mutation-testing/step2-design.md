@@ -22,7 +22,7 @@ requirements should result in local changes (modification of single exciting mod
   It publishes current-points balance and their validity dates after each change.
   It's also providing points earning history.
 - `retrieve-customer-tier` - manages configuration of loyalty tires and maintains customer tier for each customer based
-  on current points balance published by `accumulate-spend-points` and potentially by other activities recorded
+  on current points balance published by `accumulate-points` and potentially by other activities recorded
   by `track-customer-activity`
 - `manage-rewards` - Manages the configuration and availability of various reward options. It uses data
   from `retrieve-customer-tier` to tailor reward offerings to individual customer tiers.
@@ -63,27 +63,27 @@ graph TD;
 1. `evaluate-booking-points` calculates amount and validity of points that customer earns for particular booking based
    on booking details and `retrieve-customer-tier`.
    `accumulate-points` is called.
-2. `accumulate-points` records points and publishes event `CustomerPointsBalanceUpdated` with current-points balance and their
+2. `accumulate-points` records points and publishes event `CustomerPointsBalanceUpdatedEvent` with current-points balance and their
    validity.
-   It also publishes event `CustomerPointsBalanceUpdated` with points and their validity date.
-3. `CustomerPointsBalanceUpdated` is consumed by
+   It also publishes event `CustomerPointsBalanceUpdatedEvent` with points and their validity date.
+3. `CustomerPointsBalanceUpdatedEvent` is consumed by
    1. `retrieve-customer-tier` - to update current tier if required
-4. `CustomerEarnedPoints` is consumed by
+4. `CustomerEarnedPointsEvent` is consumed by
    1. `redem-points` - it creates a record of points that can be redeemed
    2. `generate-insignts` - for analytics
 
 ```mermaid
 graph TD;
     evaluate-booking-points -->|calculates points| accumulate-points
-    accumulate-points -->|publishes| CustomerPointsBalanceUpdated
-    CustomerPointsBalanceUpdated{{CustomerPointsBalanceUpdated}} -->|consumed by| retrieve-customer-tier
-    accumulate-points -->|publishes| CustomerEarnedPoints
-    CustomerEarnedPoints{{CustomerEarnedPoints}} -->|updates redeemable points| redeem-points
-    CustomerEarnedPoints -->|record for analytics| generate-insights
+    accumulate-points -->|publishes| CustomerPointsBalanceUpdatedEvent
+    CustomerPointsBalanceUpdatedEvent{{CustomerPointsBalanceUpdatedEvent}} -->|consumed by| retrieve-customer-tier
+    accumulate-points -->|publishes| CustomerEarnedPointsEvent
+    CustomerEarnedPointsEvent{{CustomerEarnedPointsEvent}} -->|updates redeemable points| redeem-points
+    CustomerEarnedPointsEvent -->|record for analytics| generate-insights
 
     evaluate-booking-points -->|fetches tier info from| retrieve-customer-tier
 
     classDef default fill:#222,stroke:#000;
     classDef event fill:#555,stroke:000;
-    class CustomerPointsBalanceUpdated,CustomerEarnedPoints event
+    class CustomerPointsBalanceUpdatedEvent,CustomerEarnedPointsEvent event
 ```
