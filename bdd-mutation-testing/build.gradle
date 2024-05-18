@@ -4,7 +4,7 @@ plugins {
   //latest version https://plugins.gradle.org/plugin/org.springframework.boot
   id 'org.springframework.boot' version '3.2.5'
   //latest version https://plugins.gradle.org/plugin/io.spring.dependency-management
-  id 'io.spring.dependency-management' version '1.1.4'
+  id 'io.spring.dependency-management' version '1.1.5'
   //latest version https://plugins.gradle.org/plugin/com.diffplug.gradle.spotless
   id 'com.diffplug.spotless' version '6.25.0'
   //latest version https://plugins.gradle.org/plugin/info.solidsoft.pitest
@@ -28,6 +28,8 @@ repositories {
 }
 
 dependencies {
+  //https://mvnrepository.com/artifact/com.github.ksuid/ksuid
+  implementation 'com.github.ksuid:ksuid:1.1.2'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.boot:spring-boot-starter-web'
   runtimeOnly 'org.postgresql:postgresql'
@@ -68,12 +70,6 @@ spotless {
     greclipse().configFile 'eclipse-java-google-style.xml' // for Groovy files
   }
 
-  //  groovy {
-  //    excludeJava() // excludes all Java sources within the Groovy source dirs from formatting
-  ////    greclipse() // has its own section below
-  ////    indentWithSpaces(2)
-  //    googleJavaFormat()
-  //  }
   groovyGradle {
     target '*.gradle' // default target of groovyGradle
     greclipse()

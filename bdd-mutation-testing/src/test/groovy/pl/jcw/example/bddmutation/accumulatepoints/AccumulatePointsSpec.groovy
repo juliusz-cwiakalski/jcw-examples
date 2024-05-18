@@ -59,6 +59,7 @@ class AccumulatePointsSpec extends Specification {
         transaction3.transactionTimestamp()).toList()
 
     then: "the history includes all points earned within the specified dates"
+    transactions.size() == 2
     transactions == [transaction2, transaction3]
   }
 
@@ -95,6 +96,19 @@ class AccumulatePointsSpec extends Specification {
 
     then: "a CustomerPointsBalanceUpdated event contains up-to-date details"
     assert balanceHasValuesFrom(currentPointsBalance, pointsEarned, now())
+  }
+
+  def "Should provide zero points balance if we ask it for customer that has no earnings"() {
+    given: "a customer did not earn any points yet"
+
+    when: "we ask for the current points balance"
+    CustomerPointsBalanceUpdatedEvent currentPointsBalance = accumulatePointsFacade.getCurrentPointsBalance(customerId)
+
+    then: "a CustomerPointsBalanceUpdated with zero balance is returned"
+    currentPointsBalance.customerId() == customerId
+    currentPointsBalance.tierPointsBalance() == BigDecimal.ZERO
+    currentPointsBalance.tierValidityDate() == now()
+    currentPointsBalance.balanceTimestamp() == now()
   }
 
   def "Should consider points expiry when publishing the points balance after each transaction"() {

@@ -42,6 +42,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [[TL-TR] Delivery Process Steps Summary](#tl-tr-delivery-process-steps-summary)
   * [Example Project Introduction](#example-project-introduction)
   * [[TL-TR] Project Structure and Execution](#tl-tr-project-structure-and-execution)
+    * [Build project and review test reports](#build-project-and-review-test-reports)
   * [Key Lessons and Evolving Strategies](#key-lessons-and-evolving-strategies)
   * [[TL-TR] Final Thoughts and Future Directions](#tl-tr-final-thoughts-and-future-directions)
   * [Appendix and Additional Resources](#appendix-and-additional-resources)
@@ -75,9 +76,9 @@ suitable for projects of any size in today’s fast-paced tech environment.
     3. Detailed review of BDD scenarios done by developers / QAs / business stakeholders
     4. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
     5. Implement module unit BDD scenarios (design the module facade API).
-    6. Implement the module facade
+    6. Implement the module facade that fulfills all the module unit BDD specifications.
     7. Implement BDD integration tests for key scenarios
-    8. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate) 
+    8. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate)
 
 ## Example Project Introduction
 
@@ -93,26 +94,35 @@ Please note that implementation will not provide full features scope but it
 (and Git history) will demonstrate how such a project could be developed.
 
 - **Step 1 example: Definition of a business problem and main features of loyalty program solution**
-  - Checkout tag: `git checkout bdd-step1`
-  - Review [step1-business-problem.md](step1-business-problem.md)
+    - Checkout tag: `git checkout bdd-step1`
+    - Review [step1-business-problem.md](step1-business-problem.md)
 - **Step 2 example: Components design of loyalty program solution**
-  - Checkout tag: `git checkout bdd-step2`
-  - Review [step2-design.md](step2-design.md)
+    - Checkout tag: `git checkout bdd-step2`
+    - Review [step2-design.md](step2-design.md)
 - **Iteration 1 - implementing `accumulate-points`**
-  - **Step 3.1 example: earning points process described in design**
-    - Checkout tag: `git checkout bdd-iteration1-step3.1`
-    - Review [step2-design.md](step2-design.md) 
-  - **Step 3.2 example: BDD specification of `accumulate-points`**
-    - Checkout tag: `git checkout bdd-iteration1-step3.2`
-    - Build with `./gradlew b` and review [Spock reports](build/spock-reports/index.html) considering business perspective
-  - **Step 3.3 + 3.4 example: review of BDD scenarios + correct mapping of scenarios to modules** 
-    - done in step 3.2 -> `git checkout bdd-iteration1-step3.2`
-  - **Step 3.5 example: Implement module unit BDD scenarios and design module facade API**
-    - Checkout tag: `git checkout bdd-iteration1-step3.5`
-  - **Step 3.6 example: Implement the module facade**
-    - Checkout git tag `XYZ`
+    - **Step 3.1 example: earning points process described in design**
+        - Checkout tag: `git checkout bdd-iteration1-step3.1`
+        - Review [step2-design.md](step2-design.md)
+    - **Step 3.2 example: BDD specification of `accumulate-points`**
+        - Checkout tag: `git checkout bdd-iteration1-step3.2`
+        - Build with `./gradlew b` and review [Spock reports](build/spock-reports/index.html) considering business
+          perspective
+    - **Step 3.3 + 3.4 example: review of BDD scenarios + correct mapping of scenarios to modules**
+        - done in step 3.2 -> `git checkout bdd-iteration1-step3.2`
+    - **Step 3.5 example: Implement module unit BDD scenarios and design module facade API**
+        - Checkout tag: `git checkout bdd-iteration1-step3.5`
+    - **Step 3.6 example: Implement the module facade that fulfills all the module unit BDD specifications**
+        - Checkout tag `git checkout bdd-iteration1-step3.6`
 
 ## [TL-TR] Project Structure and Execution
+
+### Build project and review test reports
+
+Run `./gradlew b` and review the test reports:
+
+- [Spock report](./build/spock-reports/index.html) - human-friendly report that is a functional requirements specification
+  and can be reviewed by business stakeholders
+- [Pitest report](./build/reports/pitest/index.html) - mutational tests report that shows the weak spots in BDD module unit tests
 
 ## Key Lessons and Evolving Strategies
 
@@ -131,7 +141,8 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - observability is important
 - testing on production is also worth considering
 - integration testing via facade vs REST/message broker etc?
-- enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade immediately)
+- enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade
+  immediately)
 - ...
 
 ## [TL-TR] Final Thoughts and Future Directions

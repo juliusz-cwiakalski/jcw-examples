@@ -10,7 +10,7 @@ class CustomerPointsBalanceUpdatedEventExtensions {
     assert event.tierPointsBalance() == earning.points()
     assert event.balanceTimestamp() == now
     assert event.tierValidityDate() == (now + earning.tierValidity())
-    assert event.toString() == earning.customerId()
+    assert event.customerId() == earning.customerId()
     return true
   }
 }
