@@ -77,8 +77,9 @@ suitable for projects of any size in today’s fast-paced tech environment.
     4. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
     5. Implement module unit BDD scenarios (design the module facade API).
     6. Implement the module facade that fulfills all the module unit BDD specifications.
-    7. Implement BDD integration tests for key scenarios
-    8. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate)
+    7. Implement the repositories unit/integration tests
+    8. Implement BDD integration tests for key scenarios
+    9. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate)
 
 ## Example Project Introduction
 
@@ -113,6 +114,8 @@ Please note that implementation will not provide full features scope but it
         - Checkout tag: `git checkout bdd-iteration1-step3.5`
     - **Step 3.6 example: Implement the module facade that fulfills all the module unit BDD specifications**
         - Checkout tag `git checkout bdd-iteration1-step3.6`
+    - **Step 3.7 example: Implement the repositories unit/integration tests**
+        - Checkout tag `git checkout bdd-iteration1-step3.7`
 
 ## [TL-TR] Project Structure and Execution
 

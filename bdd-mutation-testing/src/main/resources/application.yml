@@ -5,3 +5,7 @@ spring:
     url: jdbc:tc:postgresql:16.0:///test
 server:
   port: 8081
+logging:
+  level:
+    org:
+      flywaydb: DEBUG

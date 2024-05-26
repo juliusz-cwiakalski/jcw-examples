@@ -34,7 +34,7 @@ public class AccumulatePointsFacade {
   public CustomerPointsBalanceUpdatedEvent getCurrentPointsBalance(String customerId) {
     Instant now = clock.instant();
     TierPointsBalance balance =
-        accumulatedPointsRepository.findAllByCustomerIdAndTierValidityDateAfter(customerId, now);
+        accumulatedPointsRepository.calculateCustomerTierPointsBalanceForDate(customerId, now);
     return CustomerPointsBalanceUpdatedEvent.builder()
         .customerId(customerId)
         .tierPointsBalance(balance.tierPointsBalance())
@@ -46,7 +46,7 @@ public class AccumulatePointsFacade {
   public Stream<CustomerEarnedPointsEvent> findEarningTransactions(
       String customerId, Instant earnedFrom, Instant earnedTo) {
     return accumulatedPointsRepository
-        .findAllByCustomerIdAndEarnedAtBetweenOrderByTransactionTimestampAsc(
+        .findAllByCustomerIdAndTransactionTimestampBetweenOrderByTransactionTimestampAsc(
             customerId, earnedFrom, earnedTo)
         .map(AccumulatedPoints::toEvent);
   }

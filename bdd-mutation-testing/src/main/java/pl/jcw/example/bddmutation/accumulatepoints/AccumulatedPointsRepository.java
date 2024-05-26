@@ -6,17 +6,32 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import pl.jcw.example.bddmutation.common.InMemoryRepository;
 
 interface AccumulatedPointsRepository {
   <T extends AccumulatedPoints> T save(T points);
 
-  Stream<AccumulatedPoints> findAllByCustomerIdAndEarnedAtBetweenOrderByTransactionTimestampAsc(
-      String customerId, Instant earnedFrom, Instant earnedTo);
+  Stream<AccumulatedPoints>
+      findAllByCustomerIdAndTransactionTimestampBetweenOrderByTransactionTimestampAsc(
+          String customerId, Instant earnedFrom, Instant earnedTo);
 
-  TierPointsBalance findAllByCustomerIdAndTierValidityDateAfter(String customerId, Instant now);
+  @Query(
+      """
+         SELECT new pl.jcw.example.bddmutation.accumulatepoints.TierPointsBalance(
+             SUM(ap.points), MIN(ap.tierValidityDate))
+         FROM AccumulatedPoints ap
+         WHERE ap.customerId = :customerId
+         AND ap.tierValidityDate > :now
+         """)
+  TierPointsBalance calculateCustomerTierPointsBalanceForDate(
+      @Param("customerId") String customerId, @Param("now") Instant now);
+
+  Optional<AccumulatedPoints> findById(String id);
 }
 
 record TierPointsBalance(BigDecimal tierPointsBalance, Instant tierValidityDate) {}
@@ -31,7 +46,7 @@ class InMemoryAccumulatedPointsRepository extends InMemoryRepository<Accumulated
 
   @Override
   public Stream<AccumulatedPoints>
-      findAllByCustomerIdAndEarnedAtBetweenOrderByTransactionTimestampAsc(
+      findAllByCustomerIdAndTransactionTimestampBetweenOrderByTransactionTimestampAsc(
           String customerId, Instant earnedFrom, Instant earnedTo) {
     return findByPredicate(
             customerIdIs(customerId).and(AccumulatedPoints.earnedBetween(earnedFrom, earnedTo)))
@@ -39,7 +54,7 @@ class InMemoryAccumulatedPointsRepository extends InMemoryRepository<Accumulated
   }
 
   @Override
-  public TierPointsBalance findAllByCustomerIdAndTierValidityDateAfter(
+  public TierPointsBalance calculateCustomerTierPointsBalanceForDate(
       String customerId, Instant now) {
     List<AccumulatedPoints> validPoints =
         findByPredicate(customerIdIs(customerId).and(isTierValid(now))).toList();

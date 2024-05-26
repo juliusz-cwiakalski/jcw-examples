@@ -1,13 +1,21 @@
 package pl.jcw.example.bddmutation.accumulatepoints
 
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.context.ContextConfiguration
+import pl.jcw.example.bddmutation.IntegrationTestConfiguration
 import spock.lang.Specification
 
+@ContextConfiguration(classes = IntegrationTestConfiguration)
 class AccumulatePointsIntegrationSpec extends Specification {
+
+  @Autowired
+  AccumulatePointsFacade accumulatePointsFacade
 
   def "Should publish CustomerPointsBalanceUpdated and CustomerEarnedPoints events when points are earned"(){
     given: "customer has no points earned so far"
     when: "a customer earns points"
     then: "CustomerPointsBalanceUpdated event is published"
+
     then: "CustomerEarnedPoints event is published"
   }
 

@@ -1,6 +1,5 @@
 package pl.jcw.example.bddmutation.accumulatepoints;
 
-import com.github.ksuid.Ksuid;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,16 +11,19 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import lombok.Getter;
+import lombok.ToString;
 import pl.jcw.example.bddmutation.accumulatepoints.api.CustomerEarnedPointsEvent;
 import pl.jcw.example.bddmutation.accumulatepoints.api.PointsEarned;
+import pl.jcw.example.bddmutation.common.IdGenerator;
 
 @Entity
+@ToString
 class AccumulatedPoints {
 
   protected AccumulatedPoints() {}
 
   AccumulatedPoints(PointsEarned pointsEarned, Instant now) {
-    this.transactionId = Ksuid.newKsuid().toString();
+    this.transactionId = IdGenerator.nextId();
     this.transactionTimestamp = now;
     this.customerId = pointsEarned.customerId();
     this.points = pointsEarned.points();

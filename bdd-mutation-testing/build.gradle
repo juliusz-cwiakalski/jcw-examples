@@ -1,6 +1,7 @@
 plugins {
   id 'java'
   id 'groovy'
+  id 'jacoco'
   //latest version https://plugins.gradle.org/plugin/org.springframework.boot
   id 'org.springframework.boot' version '3.2.5'
   //latest version https://plugins.gradle.org/plugin/io.spring.dependency-management
@@ -32,6 +33,7 @@ dependencies {
   implementation 'com.github.ksuid:ksuid:1.1.2'
   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
   implementation 'org.springframework.boot:spring-boot-starter-web'
+  implementation 'org.flywaydb:flyway-core'
   runtimeOnly 'org.postgresql:postgresql'
   testImplementation 'org.testcontainers:postgresql'
 
@@ -41,6 +43,7 @@ dependencies {
   testImplementation 'org.testcontainers:junit-jupiter'
 
   //spock dependencies
+  //https://mvnrepository.com/artifact/com.athaydes/spock-reports
   testImplementation 'com.athaydes:spock-reports:2.5.1-groovy-4.0'
   testImplementation platform('org.spockframework:spock-bom:2.3-groovy-4.0')
   testImplementation 'org.spockframework:spock-core'
@@ -57,6 +60,53 @@ dependencies {
 tasks.named('test') {
   useJUnitPlatform()
 }
+
+check.dependsOn jacocoTestReport
+
+pitest {
+  //default targetClasses is "${project.group}.
+  targetClasses = ['pl.jcw.*']
+  excludedTestClasses = ['pl.jcw.**.*IntegrationSpec']
+  threads = Runtime.runtime.availableProcessors()
+  outputFormats = ['XML', 'HTML']
+  //latest version: https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin
+  junit5PluginVersion = '1.2.1'
+}
+
+Directory spockReportsDir = rootProject.layout.buildDirectory.get().dir("spock-reports")
+Directory spockReportsBackupDir = rootProject.layout.buildDirectory.get().dir("spock-reports-backup")
+
+task backupSpockReports(type: Copy) {
+  from spockReportsDir
+  into spockReportsBackupDir
+}
+
+task restoreSpockReports(type: Copy) {
+  from spockReportsBackupDir
+  into spockReportsDir
+}
+
+
+task cleanSpockReportsBackup(type: Delete) {
+  delete spockReportsBackupDir
+}
+
+task cleanSpockReports(type: Delete) {
+  delete spockReportsDir
+}
+
+restoreSpockReports.configure {
+  dependsOn cleanSpockReports
+  finalizedBy cleanSpockReportsBackup
+}
+
+tasks.named("pitest").configure {
+  //this hack is required cause pitest is breaking tests on purpose and this is captured in spock reports
+  dependsOn backupSpockReports
+  finalizedBy restoreSpockReports
+}
+
+build.finalizedBy('pitest')
 
 spotless {
   //see configuration of spotless formatter https://github.com/diffplug/spotless/tree/main/plugin-gradle
@@ -76,16 +126,3 @@ spotless {
     indentWithSpaces(2)
   }
 }
-
-
-pitest {
-  //default targetClasses is "${project.group}.
-  targetClasses = ['pl.jcw.*']
-  excludedTestClasses = ['pl.jcw.**.*IntegrationSpec']
-  threads = Runtime.runtime.availableProcessors()
-  outputFormats = ['XML', 'HTML']
-  //latest version: https://mvnrepository.com/artifact/org.pitest/pitest-junit5-plugin
-  junit5PluginVersion = '1.2.1'
-}
-
-build.finalizedBy('pitest')
