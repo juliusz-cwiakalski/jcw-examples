@@ -24,7 +24,7 @@ abstract class AbstractAccumulatedPointsRepositorySpec extends Specification {
 
   def "Should save AccumulatedPoints"() {
     given: "AccumulatedPoints instance"
-    AccumulatedPoints newPoints = createAccumulatedPoints()
+    AccumulatedPoints newPoints = createAccumulatedPointsPersistedAt()
 
     when: "save is called"
     AccumulatedPoints persistedPoints = getRepository().save(newPoints)
@@ -43,21 +43,12 @@ abstract class AbstractAccumulatedPointsRepositorySpec extends Specification {
     Instant middle = now.minusSeconds(30)
     Instant to = now
 
-    AccumulatedPoints pointsAtBeginningOfRange = createAccumulatedPoints(from)
-    AccumulatedPoints pointsInTheMiddleOfRange = createAccumulatedPoints(middle)
-    AccumulatedPoints pointsAtTheEndOfRange = createAccumulatedPoints(to)
+    AccumulatedPoints pointsAtBeginningOfRange = createAccumulatedPointsPersistedAt(from)
+    AccumulatedPoints pointsInTheMiddleOfRange = createAccumulatedPointsPersistedAt(middle)
+    AccumulatedPoints pointsAtTheEndOfRange = createAccumulatedPointsPersistedAt(to)
 
-    AccumulatedPoints pointsBeforeTheRange = createAccumulatedPoints(from.minusSeconds(60))
-    AccumulatedPoints pointsAfterTheRange = createAccumulatedPoints(to.plusSeconds(60))
-
-    and: "points are persisted in repository"
-    [
-      pointsBeforeTheRange,
-      pointsAtBeginningOfRange,
-      pointsInTheMiddleOfRange,
-      pointsAtTheEndOfRange,
-      pointsAfterTheRange
-    ].forEach { getRepository().save(it) }
+    AccumulatedPoints pointsBeforeTheRange = createAccumulatedPointsPersistedAt(from.minusSeconds(60))
+    AccumulatedPoints pointsAfterTheRange = createAccumulatedPointsPersistedAt(to.plusSeconds(60))
 
     when: "findAllByCustomerIdAndTransactionTimestampBetweenOrderByTransactionTimestampAsc($customerId, $from, $to) is called with"
     List<AccumulatedPoints> pointsInRange = getRepository().findAllByCustomerIdAndTransactionTimestampBetweenOrderByTransactionTimestampAsc(customerId, from, to).toList()
@@ -72,16 +63,9 @@ abstract class AbstractAccumulatedPointsRepositorySpec extends Specification {
 
   def "Should calculated TierPointsBalance for a given timestamp"() {
     given: "customer earned points 3 times with 60 seconds intervals"
-    AccumulatedPoints points1 = createAccumulatedPoints(now)
-    AccumulatedPoints points2 = createAccumulatedPoints(now.plusSeconds(60))
-    AccumulatedPoints points3 = createAccumulatedPoints(now.plusSeconds(120))
-
-    and: "points are persisted in repository"
-    [
-      points1,
-      points2,
-      points3
-    ].forEach { getRepository().save(it) }
+    AccumulatedPoints points1 = createAccumulatedPointsPersistedAt(now)
+    AccumulatedPoints points2 = createAccumulatedPointsPersistedAt(now.plusSeconds(60))
+    AccumulatedPoints points3 = createAccumulatedPointsPersistedAt(now.plusSeconds(120))
 
     when: "we calculate balance 30 seconds after first earned points tierValidityDate expires"
     TierPointsBalance result = getRepository().calculateCustomerTierPointsBalanceForDate(
@@ -93,7 +77,7 @@ abstract class AbstractAccumulatedPointsRepositorySpec extends Specification {
     result.tierPointsBalance() == points2.toEvent().points() + points3.toEvent().points()
   }
 
-  private AccumulatedPoints createAccumulatedPoints(Instant now = now, Closure modifyBuilder = { it }) {
+  private AccumulatedPoints createAccumulatedPointsPersistedAt(Instant now = now, Closure modifyBuilder = { it }) {
     PointsEarned.PointsEarnedBuilder builder = PointsEarned.builder()
         .customerId(customerId)
         .points(points)
@@ -101,7 +85,7 @@ abstract class AbstractAccumulatedPointsRepositorySpec extends Specification {
         .tierValidity(tierValidity)
         .redemptionValidity(redemptionValidity)
     modifyBuilder(builder)
-    return new AccumulatedPoints(builder.build(), now)
+    return getRepository().save(new AccumulatedPoints(builder.build(), now))
   }
 
   private static String randomString() {

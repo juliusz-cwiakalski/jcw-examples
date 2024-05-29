@@ -13,7 +13,7 @@ public class TestBddAndMutationTestingApplication {
   @ServiceConnection
   @Bean
   PostgreSQLContainer<?> postgresContainer() {
-    return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"));
+    return new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest")).withReuse(true);
   }
 
   public static void main(String[] args) {

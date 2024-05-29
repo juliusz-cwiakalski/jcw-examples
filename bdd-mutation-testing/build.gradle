@@ -41,6 +41,7 @@ dependencies {
   testImplementation 'org.springframework.boot:spring-boot-testcontainers'
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
   testImplementation 'org.testcontainers:junit-jupiter'
+  testImplementation 'io.rest-assured:rest-assured'
 
   //spock dependencies
   //https://mvnrepository.com/artifact/com.athaydes/spock-reports

@@ -4,6 +4,7 @@ package pl.jcw.example.bddmutation.accumulatepoints
 import pl.jcw.example.bddmutation.accumulatepoints.api.CustomerPointsBalanceUpdatedEvent
 import pl.jcw.example.bddmutation.accumulatepoints.api.PointsEarned
 import pl.jcw.example.bddmutation.accumulatepoints.api.CustomerEarnedPointsEvent
+import pl.jcw.example.bddmutation.common.IdGenerator
 import spock.lang.Specification
 import spock.util.time.MutableClock
 
@@ -16,12 +17,12 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
 import static java.time.Duration.between
-import static pl.jcw.example.bddmutation.accumulatepoints.CustomerEarnedPointsEventExtensions.transactionHasValuesFrom
-import static pl.jcw.example.bddmutation.accumulatepoints.CustomerPointsBalanceUpdatedEventExtensions.balanceHasValuesFrom
+import static pl.jcw.example.bddmutation.accumulatepoints.CustomerEarnedPointsEventExtensions.assertTransactionHasValuesFrom
+import static pl.jcw.example.bddmutation.accumulatepoints.CustomerPointsBalanceUpdatedEventExtensions.assertBalanceHasValuesFrom
 
 class AccumulatePointsSpec extends Specification {
 
-  String customerId = UUID.randomUUID().toString()
+  String customerId = IdGenerator.nextId()
   MutableClock clock = new MutableClock()
   List<CustomerEarnedPointsEvent> earnedPointsEvents = []
   List<CustomerPointsBalanceUpdatedEvent> balanceUpdatedEvents = []
@@ -40,7 +41,7 @@ class AccumulatePointsSpec extends Specification {
 
     then: "the history contains the earned points and details such as the earning date"
     transactions.size() == 1
-    assert transactionHasValuesFrom(transactions[0], pointsEarned)
+    assertTransactionHasValuesFrom(transactions[0], pointsEarned)
     transactions[0].transactionTimestamp() == now()
   }
 
@@ -70,7 +71,7 @@ class AccumulatePointsSpec extends Specification {
 
     then: "a CustomerEarnedPoints event is emitted with points and their validity dates"
     earnedPointsEvents.size() == 1
-    assert transactionHasValuesFrom(earnedPointsEvents[0], pointsEarned)
+    assertTransactionHasValuesFrom(earnedPointsEvents[0], pointsEarned)
     earnedPointsEvents[0].transactionTimestamp() == now()
   }
 
@@ -83,7 +84,7 @@ class AccumulatePointsSpec extends Specification {
 
     then: "a CustomerPointsBalanceUpdated event is published with the new balance"
     balanceUpdatedEvents.size() == 1
-    assert balanceHasValuesFrom(balanceUpdatedEvents[0], pointsEarned, now())
+    assertBalanceHasValuesFrom(balanceUpdatedEvents[0], pointsEarned, now())
   }
 
   def "Should provide the current points balance on demand"() {
@@ -95,7 +96,7 @@ class AccumulatePointsSpec extends Specification {
     CustomerPointsBalanceUpdatedEvent currentPointsBalance = accumulatePointsFacade.getCurrentPointsBalance(customerId)
 
     then: "a CustomerPointsBalanceUpdated event contains up-to-date details"
-    assert balanceHasValuesFrom(currentPointsBalance, pointsEarned, now())
+    assertBalanceHasValuesFrom(currentPointsBalance, pointsEarned, now())
   }
 
   def "Should provide zero points balance if we ask it for customer that has no earnings"() {
@@ -114,7 +115,7 @@ class AccumulatePointsSpec extends Specification {
   def "Should consider points expiry when publishing the points balance after each transaction"() {
     given: "a customer earns points and the points are added to the customer's account"
     PointsEarned pointsThatExpire = pointsEarned().build()
-    Instant initialEarningTime = clock.instant()
+    Instant initialEarningTime = now()
     accumulatePointsFacade.earn(pointsThatExpire)
 
     and: "the points' validity period passes"
@@ -126,8 +127,8 @@ class AccumulatePointsSpec extends Specification {
 
     then: "a CustomerPointsBalanceUpdated event is published and includes only non-expired points"
     balanceUpdatedEvents.size() == 2
-    assert balanceHasValuesFrom(balanceUpdatedEvents[0], pointsThatExpire, initialEarningTime)
-    assert balanceHasValuesFrom(balanceUpdatedEvents[1], nextPointsEarned, now())
+    assertBalanceHasValuesFrom(balanceUpdatedEvents[0], pointsThatExpire, initialEarningTime)
+    assertBalanceHasValuesFrom(balanceUpdatedEvents[1], nextPointsEarned, now())
   }
 
   def "Should calculate balance expiry date considering when first non-expired points will expire and not count expired points into balance"() {
@@ -162,21 +163,21 @@ class AccumulatePointsSpec extends Specification {
     balanceUpdatedEvents[2].tierPointsBalance() == secondEarning.points() + thirdEarning.points()
   }
 
-  def "Should handle points redemption by deducting from the balance"() {
+  def "[TODO] Should handle points redemption by deducting from the balance"() {
     // TODO: this is a test for the `redeem-points` module - move there once it's created
     given: "a customer redeems some points"
     when: "points are deducted from the balance"
     then: "the points balance is updated and a CustomerPointsBalanceUpdated event is published"
   }
 
-  def "Should expire points correctly based on their spending validity date"() {
+  def "[TODO] Should expire points correctly based on their spending validity date"() {
     // TODO: this is a test for the `redeem-points` module - move there once it's created
     given: "points have reached their spending validity date"
     when: "the system checks for point validity"
     then: "expired points are removed from the balance and the change is reflected in the points history"
   }
 
-  def "Should maintain accurate tier status based on points balance"() {
+  def "[TODO] Should maintain accurate tier status based on points balance"() {
     // TODO: this is a test for the `retrieve-customer-tier` module - move there once it's created
     given: "a customer's points balance changes"
     and: "this change affects their tier status"
@@ -190,7 +191,7 @@ class AccumulatePointsSpec extends Specification {
         .points(BigDecimal.valueOf(nextLong()))
         .tierValidity(Duration.ofDays(nextLong()))
         .redemptionValidity(Duration.ofDays(nextLong()))
-        .description("Points earned for " + UUID.randomUUID())
+        .description("Points earned for " + IdGenerator.nextId())
   }
 
   private static long nextLong(long bound = 500) {

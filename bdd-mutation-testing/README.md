@@ -1,5 +1,26 @@
 # Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond
 
+## TL-TR
+
+Want a quick start? Copy-paste below into terminal, and read other sections with **TL-TR** in name. :)
+
+```bash
+git clone git@github.com:juliusz-cwiakalski/jcw-examples.git
+cd ./jcw-examples
+git checkout 3-bdd-and-mutation-testing-example
+cd ./bdd-mutation-testing
+./gradlew b
+
+echo "review spock reports (business features): ./build/spock-reports/index.html"
+xdg-open ./build/spock-reports/index.html
+
+echo "review pitest reports (mutational tests): ./build/reports/pitest/index.html"
+xdg-open ./build/reports/pitest/index.html
+
+echo "review jacoco reports (test coverage): ./build/reports/jacoco/test/html/index.html"
+xdg-open ./build/reports/jacoco/test/html/index.html
+```
+
 ## Introduction
 
 **Note**: Short on time? Read **TL-TR** sections to get straight to the point. ;-)
@@ -33,6 +54,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 
 <!-- TOC -->
 * [Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond](#full-spectrum-software-testing-mastering-modern-development-with-bdd-modularity-and-beyond)
+  * [TL-TR](#tl-tr)
   * [Introduction](#introduction)
   * [The Role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
   * [Building a Modular Architecture](#building-a-modular-architecture)
@@ -43,7 +65,9 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [Example Project Introduction](#example-project-introduction)
   * [[TL-TR] Project Structure and Execution](#tl-tr-project-structure-and-execution)
     * [Build project and review test reports](#build-project-and-review-test-reports)
+    * [Key setup required to introduce in your project](#key-setup-required-to-introduce-in-your-project)
   * [Key Lessons and Evolving Strategies](#key-lessons-and-evolving-strategies)
+  * [I like this approach! How to convince others to use it?](#i-like-this-approach-how-to-convince-others-to-use-it)
   * [[TL-TR] Final Thoughts and Future Directions](#tl-tr-final-thoughts-and-future-directions)
   * [Appendix and Additional Resources](#appendix-and-additional-resources)
   * [TODO](#todo)
@@ -77,7 +101,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
     4. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
     5. Implement module unit BDD scenarios (design the module facade API).
     6. Implement the module facade that fulfills all the module unit BDD specifications.
-    7. Implement the repositories unit/integration tests
+    7. Implement the repositories' unit/integration tests
     8. Implement BDD integration tests for key scenarios
     9. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate)
 
@@ -112,10 +136,16 @@ Please note that implementation will not provide full features scope but it
         - done in step 3.2 -> `git checkout bdd-iteration1-step3.2`
     - **Step 3.5 example: Implement module unit BDD scenarios and design module facade API**
         - Checkout tag: `git checkout bdd-iteration1-step3.5`
+        - See [AccumulatePointsSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsSpec.groovy)
     - **Step 3.6 example: Implement the module facade that fulfills all the module unit BDD specifications**
         - Checkout tag `git checkout bdd-iteration1-step3.6`
+        - See [classes in `pl.jcw.example.bddmutation.accumulatepoints` package](src/main/java/pl/jcw/example/bddmutation/accumulatepoints)
     - **Step 3.7 example: Implement the repositories unit/integration tests**
         - Checkout tag `git checkout bdd-iteration1-step3.7`
+        - See [AccumulatedPointsRepositorySpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatedPointsRepositorySpec.groovy)
+    - **Step 3.8 example: Implement BDD integration tests for key scenarios**
+        - Checkout tag `git checkout bdd-iteration1-step3.8`
+        - See [AccumulatePointsIntegrationSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsIntegrationSpec.groovy)
 
 ## [TL-TR] Project Structure and Execution
 
@@ -123,9 +153,19 @@ Please note that implementation will not provide full features scope but it
 
 Run `./gradlew b` and review the test reports:
 
-- [Spock report](./build/spock-reports/index.html) - human-friendly report that is a functional requirements specification
+- [Spock report](./build/spock-reports/index.html) - human-friendly report that is a functional requirements
+  specification
   and can be reviewed by business stakeholders
-- [Pitest report](./build/reports/pitest/index.html) - mutational tests report that shows the weak spots in BDD module unit tests
+- [Pitest report](./build/reports/pitest/index.html) - mutational tests report that shows the weak spots in BDD module
+  unit tests
+
+### Key setup required to introduce in your project
+
+TODO:
+
+- [ ] spock parallelization
+- [ ] pitest
+- [ ] spock report + pitest hack
 
 ## Key Lessons and Evolving Strategies
 
@@ -133,13 +173,13 @@ TODO describe what I've tried over the years and comment on conclusions and less
 
 - mutation testing does not work with integration testing
 - class unit testing + mocking brings little value + cements the code (hard refactoring)
-- test pyramid -> test diamond -> back to test pyramid - when to use what?
+- test pyramid -> test diamond -> back to test pyramid—when to use what?
 - integration tests fits CRUDs, unit tests when there's logic
-- there are two types of tests - fast and slow
+- there are two types of tests—fast and slow
 - unit and integration tests alone are not enough -> e2e / contract testing / manual testing still needed
 - code coverage alone is dangerous!
-- test execution and time matters! (time budget etc)
-- some tests can be shared in unit and integation tests (spock traits)
+- test execution and time matters! (time budget etc.)
+- some tests can be shared in unit and integration tests (spock traits)
 - components should be responsible for logic (verbs) not for things (nouns)
 - observability is important
 - testing on production is also worth considering
@@ -147,6 +187,11 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade
   immediately)
 - ...
+
+## I like this approach! How to convince others to use it?
+
+TODO: describe benefits from different perspectives
+(developer, tester, product owner, project manager)
 
 ## [TL-TR] Final Thoughts and Future Directions
 
@@ -164,10 +209,10 @@ This section summarizes steps that are required to prepare the example project a
 - [x] Extend design with processes description, that will be extended in the iteration
 - [x] Rewrite high level requirements as BDD Spock specification
 - [x] Implement modules unit tests (and design the modules API)
-- [ ] Implement example REST API
+- [x] Implement example REST API
 - [ ] Implement example Kafka integration (in/out)
 - [ ] Implement example external system integration via REST
-- [ ] Implement integration tests for key functionalities
+- [x] Implement integration tests for key functionalities
 - [ ] Add more details to development process steps
 - [ ] Describe project structure
 - [ ] Describe basic terms: BDD, mutational testing
@@ -179,4 +224,4 @@ This section summarizes steps that are required to prepare the example project a
 - [ ] Ask friends for review and feedback ;)
 - [ ] Prepare tags / keywords
 - [ ] Prepare Maven setup
-
+- [ ] Describe CI/CD setup that assures test strength (mutational tests) is on configured level on branch
