@@ -4,21 +4,23 @@
 
 Want a quick start? Copy-paste below into terminal, and read other sections with **TL-TR** in name. :)
 
+**Prerequisite**: make sure you use Java 21.
+
 ```bash
-git clone git@github.com:juliusz-cwiakalski/jcw-examples.git
+git clone https://github.com/juliusz-cwiakalski/jcw-examples.git
 cd ./jcw-examples
 git checkout 3-bdd-and-mutation-testing-example
 cd ./bdd-mutation-testing
 ./gradlew b
 
 echo "review spock reports (business features): ./build/spock-reports/index.html"
-xdg-open ./build/spock-reports/index.html
+open ./build/spock-reports/index.html
 
 echo "review pitest reports (mutational tests): ./build/reports/pitest/index.html"
-xdg-open ./build/reports/pitest/index.html
+open ./build/reports/pitest/index.html
 
 echo "review jacoco reports (test coverage): ./build/reports/jacoco/test/html/index.html"
-xdg-open ./build/reports/jacoco/test/html/index.html
+open ./build/reports/jacoco/test/html/index.html
 ```
 
 ## Introduction
@@ -118,6 +120,8 @@ The project's Git history may be reviewed to see what the steps are.
 Please note that implementation will not provide full features scope but it
 (and Git history) will demonstrate how such a project could be developed.
 
+**Note**: Make sure all below commands are executed in [bdd-mutation-testing](../bdd-mutation-testing) directory.
+
 - **Step 1 example: Definition of a business problem and main features of loyalty program solution**
     - Checkout tag: `git checkout bdd-step1`
     - Review [step1-business-problem.md](step1-business-problem.md)
@@ -139,7 +143,7 @@ Please note that implementation will not provide full features scope but it
         - See [AccumulatePointsSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsSpec.groovy)
     - **Step 3.6 example: Implement the module facade that fulfills all the module unit BDD specifications**
         - Checkout tag `git checkout bdd-iteration1-step3.6`
-        - See [classes in `pl.jcw.example.bddmutation.accumulatepoints` package](src/main/java/pl/jcw/example/bddmutation/accumulatepoints)
+        See [classes in `pl.jcw.example.bddmutation.accumulatepoints` package](src/main/java/pl/jcw/example/bddmutation/accumulatepoints)
     - **Step 3.7 example: Implement the repositories unit/integration tests**
         - Checkout tag `git checkout bdd-iteration1-step3.7`
         - See [AccumulatedPointsRepositorySpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatedPointsRepositorySpec.groovy)
@@ -186,6 +190,7 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - integration testing via facade vs REST/message broker etc?
 - enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade
   immediately)
+- use tmpfs in test containers to speedup tests
 - ...
 
 ## I like this approach! How to convince others to use it?
@@ -218,7 +223,8 @@ This section summarizes steps that are required to prepare the example project a
 - [ ] Describe basic terms: BDD, mutational testing
 - [ ] Describe some history and evolution of approaches I take
 - [ ] List of useful resources
-- [ ] Should I always use all the tools?
+- [ ] Should I always use all the tools? 
+- [ ] Describe what problems they solve, and what are benefits from different stakeholders perspective (dev/QA/product owner, project manager)
 - [ ] General hints
 - [ ] Comment on alternative tools (Gherkin, other mutation testing frameworks)
 - [ ] Ask friends for review and feedback ;)

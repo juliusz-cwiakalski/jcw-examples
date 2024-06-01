@@ -107,7 +107,7 @@ tasks.named("pitest").configure {
   finalizedBy restoreSpockReports
 }
 
-build.finalizedBy('pitest')
+test.finalizedBy('pitest')
 
 spotless {
   //see configuration of spotless formatter https://github.com/diffplug/spotless/tree/main/plugin-gradle
