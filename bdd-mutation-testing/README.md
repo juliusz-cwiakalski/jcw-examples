@@ -75,6 +75,16 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [TODO](#todo)
 <!-- TOC -->
 
+## What problems are solved by this approach
+
+### Rework caused by unclear requirements and lack of design
+
+### Poor quality of tests
+
+### Slow builds
+
+### Challenging maintainability and extensibility due to cognitive overload
+
 ## The Role of Behavior Driven Development (BDD)
 
 ## Building a Modular Architecture
