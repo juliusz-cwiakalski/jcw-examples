@@ -68,8 +68,9 @@ suitable for projects of any size in today’s fast-paced tech environment.
     * [Long build times](#long-build-times)
     * [Big ball of mud](#big-ball-of-mud)
     * [Cognitive overload](#cognitive-overload)
-  * [The role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
   * [Building a modular architecture](#building-a-modular-architecture)
+  * [The role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
+    * [Advantages of BDD](#advantages-of-bdd)
   * [Comprehensive testing: unit to integration](#comprehensive-testing-unit-to-integration)
   * [Enhancing tests reliability with mutation testing](#enhancing-tests-reliability-with-mutation-testing)
   * [Automating code quality](#automating-code-quality)
@@ -189,10 +190,41 @@ overload.
 - The cognitive load from dealing with complex, large modules stifles creativity and innovation, leading to lower
   quality solutions and less effective problem-solving.
 
+## Building a modular architecture
 
 ## The role of Behavior Driven Development (BDD)
 
-## Building a modular architecture
+Behavior Driven Development (BDD) focuses on software behaviors (features) rather than implementation details. The
+perspective to take is: what is the desired outcome? BDD tests do not concern themselves with how the behavior is
+implemented. This aligns closely with business goals and the business mindset. In the end, users want to make their
+lives easier and get the job done. They don't care about the technical details of how the software works.
+
+The consequence of this perspective is that tests focus on verifying the correct outcomes (what happens) rather than the
+implementation details (how it happens).
+
+### Advantages of BDD
+
+- **Readability:** BDD test code is more readable and may serve as a living documentation or specification of
+  functionality.
+- **Refactoring-Proof:** Tests focus on the outcome, not the implementation details, allowing developers to change the
+  internal logic without altering the test code.
+- **Encourages Better Design:** Easy refactoring encourages better internal structure and code quality, leading to
+  greater maintainability and reduced delivery times.
+- **Improved Communication:** BDD promotes better communication between developers, testers, and business stakeholders,
+  ensuring everyone has a clear understanding of the requirements and expected outcomes.
+- **Early Bug Detection:** By focusing on expected behaviors, BDD helps in catching discrepancies and bugs early in the
+  development process.
+- **Enhanced Collaboration:** BDD frameworks often use natural language for test descriptions, making it easier for
+  non-technical stakeholders to understand and contribute to the development process.
+- **User-Centric Approach:** By prioritizing user-focused outcomes, BDD ensures that the software delivers value to
+  end-users, aligning development efforts with business objectives.
+
+**Summary:**
+
+BDD shifts the focus from how features are implemented to what the features should achieve, aligning development efforts
+with business goals and user needs.
+This approach not only improves code quality and maintainability but also fosters
+better communication and collaboration among all stakeholders involved in the software development process.
 
 ## Comprehensive testing: unit to integration
 
@@ -202,30 +234,37 @@ overload.
 
 ## [TL-TR] Delivery Process Steps Summary
 
-1. Start with business need definition
+1. Start with business need definition and clarification
     - Describe the problem the software should tackle with
     - Define key objectives
     - Define high-level features or stories that software should support
+    - Identify and document non-functional requirements (NFRs)
+    - Conduct initial feasibility analysis (technical and financial)
+    - Develop prototypes for key components or the entire system to validate assumptions and gather early feedback.
+
 2. Design what modules must be modified and what changes are required
     - List of components and their responsibilities
     - Diagram explaining the dependencies
     - Main processes description (and diagrams if required)
+    - Ensure design addresses non-functional requirements
+
 3. Select functionality subset for iteration, and:
     1. Extend the design with process(es) description to make sure that process aspects relevant for iteration are clear
-       and complete
-    2. Describe in BDD terms the expected behaviors of the components that have to be changed
-    3. Detailed review of BDD scenarios done by developers / QAs / business stakeholders
-    4. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
-    5. Implement module unit BDD scenarios (design the module facade API).
-    6. Implement the module facade that fulfills all the module unit BDD specifications.
-    7. Implement the repositories' unit/integration tests
-    8. Implement BDD integration tests for key scenarios
-    9. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate)
-
-TODO - include additional aspects in the process and correct the example:
-- include non-functional requirements like performance, security, usability, and scalability. They should be defined in the design phase and 
-- add feasibility analysis step that 
-
+       and complete. 
+    2. Double check if UI mockups are available and confirmed by all stakeholders.
+    3. Describe in BDD terms the expected behaviors of the components that have to be changed.
+       Document any additional acceptance criteria that are not described in BDD scenarios.
+    4. Detailed review of BDD scenarios done by developers / QAs / product owner and other stakeholders
+    5. Correct structure of BDD and map scenarios to modules. Run scenarios and review the spock report readability.
+    6. Implement module unit BDD scenarios (design the module facade API).
+    7. Implement the module facade that fulfills all the module unit BDD specifications.
+    8. Implement the repositories' unit/integration tests
+    9. Implement BDD integration tests for key scenarios
+    10. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate)
+    11. Integrate and deploy using fully automated CI/CD
+    12. Collect user feedback, refine requirements and improve the system based on user experiences
+    13. Conduct retrospective to evaluate what went well, and what could be improved for future iterations. Capture
+        lessons learned and plan improvement actions
 
 ## Example Project Introduction
 
@@ -241,6 +280,8 @@ Please note that implementation will not provide full features scope but it
 (and Git history) will demonstrate how such a project could be developed.
 
 **Note**: Make sure all below commands are executed in [bdd-mutation-testing](../bdd-mutation-testing) directory.
+
+**TODO**: Correct tags after the process steps numbers changed.
 
 - **Step 1 example: Definition of a business problem and main features of loyalty program solution**
     - Checkout tag: `git checkout bdd-step1`
