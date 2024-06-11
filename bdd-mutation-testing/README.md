@@ -1,8 +1,9 @@
 # Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond
 
-## TL-TR
+## Too Long To Read? (TL-TR)
 
-Want a quick start? Copy-paste below into terminal, and read other sections with **TL-TR** in name. :)
+Want a quick start?
+Copy-paste below into terminal, review the table of content, and read other sections with **TL-TR** in name.
 
 **Prerequisite**: make sure you use Java 21.
 
@@ -56,13 +57,22 @@ suitable for projects of any size in today’s fast-paced tech environment.
 
 <!-- TOC -->
 * [Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond](#full-spectrum-software-testing-mastering-modern-development-with-bdd-modularity-and-beyond)
-  * [TL-TR](#tl-tr)
+  * [Too Long To Read? (TL-TR)](#too-long-to-read-tl-tr)
   * [Introduction](#introduction)
-  * [The Role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
-  * [Building a Modular Architecture](#building-a-modular-architecture)
-  * [Comprehensive Testing: Unit to Integration](#comprehensive-testing-unit-to-integration)
-  * [Enhancing Reliability with Mutation Testing](#enhancing-reliability-with-mutation-testing)
-  * [Automating Code Quality](#automating-code-quality)
+  * [What problems are solved by software development techniques proposed in this article](#what-problems-are-solved-by-software-development-techniques-proposed-in-this-article)
+    * [Communication gaps between developers, testers, and non-technical stakeholders](#communication-gaps-between-developers-testers-and-non-technical-stakeholders)
+    * [Missing or insufficient business requirements](#missing-or-insufficient-business-requirements)
+    * [Late changes to business requirements](#late-changes-to-business-requirements)
+    * [Poor quality of tests](#poor-quality-of-tests)
+    * [Difficulty in refactoring](#difficulty-in-refactoring)
+    * [Long build times](#long-build-times)
+    * [Big ball of mud](#big-ball-of-mud)
+    * [Cognitive overload](#cognitive-overload)
+  * [The role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
+  * [Building a modular architecture](#building-a-modular-architecture)
+  * [Comprehensive testing: unit to integration](#comprehensive-testing-unit-to-integration)
+  * [Enhancing tests reliability with mutation testing](#enhancing-tests-reliability-with-mutation-testing)
+  * [Automating code quality](#automating-code-quality)
   * [[TL-TR] Delivery Process Steps Summary](#tl-tr-delivery-process-steps-summary)
   * [Example Project Introduction](#example-project-introduction)
   * [[TL-TR] Project Structure and Execution](#tl-tr-project-structure-and-execution)
@@ -75,25 +85,120 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [TODO](#todo)
 <!-- TOC -->
 
-## What problems are solved by this approach
+## What problems are solved by software development techniques proposed in this article
 
-### Rework caused by unclear requirements and lack of design
+### Communication gaps between developers, testers, and non-technical stakeholders
+
+**Problem:** Causes misunderstandings and poor information flow.
+
+**Consequences:**
+
+- Unclear understanding of requirements leads to inaccurate implementations.
+- Undefined acceptance criteria result in ineffective testing.
+- Misalignment of project goals with stakeholder expectations causes rework and delays.
+- Lack of visibility into the development process results in unmet business needs.
+
+### Missing or insufficient business requirements
+
+**Problem:** Causes waste and delays due to changes in requirements, rework, discussions, and clarifications.
+
+**Consequences:**
+
+- Increased time and effort spent on rework and clarifications.
+- Delays in project timelines due to constant requirement changes.
+- Reduced developer productivity and morale.
+- Difficulty in planning and estimating project scope.
+- Increased risk of delivering a product that does not meet business needs.
+- Higher chances of miscommunication between team members and stakeholders.
+
+### Late changes to business requirements
+
+**Problem:** Causes delay and waste due to rework required.
+
+**Consequences:**
+
+- Increased project costs due to additional development and testing cycles.
+- Delays in project delivery as teams adjust to new requirements.
+- Frustration among team members due to shifting priorities and rework.
+- Reduced focus on quality as teams rush to implement changes.
+- Difficulty in maintaining consistent project progress.
 
 ### Poor quality of tests
 
-### Slow builds
+**Problem:** Despite high coverage, tests are not detecting bugs.
 
-### Challenging maintainability and extensibility due to cognitive overload
+**Consequences:**
 
-## The Role of Behavior Driven Development (BDD)
+- False sense of security leading to undetected bugs in production.
+- Increased debugging and fixing efforts post-deployment.
+- Higher maintenance costs due to frequent issues.
+- Erosion of stakeholder trust in the development process.
+- Inefficiencies in the development cycle as poor tests provide misleading results.
 
-## Building a Modular Architecture
+### Difficulty in refactoring
 
-## Comprehensive Testing: Unit to Integration
+**Problem:** Caused by tests focusing on the implementation details instead of the requirements.
 
-## Enhancing Reliability with Mutation Testing
+**Consequences:**
 
-## Automating Code Quality
+- Increased complexity and risk during refactoring.
+- Hesitancy to improve or refactor code due to fear of breaking existing functionality.
+- Accumulation of technical debt over time.
+- Slower development pace as code becomes harder to maintain and extend.
+- Difficulty in onboarding new developers due to a complex and rigid codebase.
+
+### Long build times
+
+**Problem:** Too much integration or end-to-end (e2e) testing increases the code-test cycle, slowing down the process
+and discouraging the use of TDD/BDD.
+
+**Consequences:**
+
+- Decreased developer productivity due to waiting for builds and tests to complete.
+- Reduced frequency of code commits and integrations, leading to larger and riskier changes.
+- Discouragement of best practices like TDD and BDD.
+- Longer feedback loop, making it harder to detect and fix issues early.
+- Increased frustration and decreased morale among developers.
+
+### Big ball of mud
+
+**Problem:** No real or clear structure or architecture in the project, making it hard to maintain and extend.
+
+**Consequences:**
+
+- Difficulty in understanding and navigating the codebase.
+- Increased time and effort required to implement new features or fix bugs.
+- Higher likelihood of introducing defects due to lack of structure.
+- Difficulty in scaling the project as it grows.
+- Increased onboarding time for new developers.
+
+### Cognitive overload
+
+**Problem:** Large modules with wide responsibilities and numerous dependencies and connections, leading to cognitive
+overload.
+
+**Consequences:**
+
+- Developers spend more time understanding complex modules, leading to slower progress and higher error rates.
+- The mental effort required to navigate and comprehend large, interconnected modules contributes to higher stress
+  levels and burnout among team members.
+- Large modules with extensive intra- and inter-connections make it challenging for developers to stay focused and clear
+  on their tasks.
+- The complexity of understanding how different parts of the module interact hinders quick decision-making and efficient
+  problem-solving.
+- The cognitive load from dealing with complex, large modules stifles creativity and innovation, leading to lower
+  quality solutions and less effective problem-solving.
+
+
+## The role of Behavior Driven Development (BDD)
+
+## Building a modular architecture
+
+## Comprehensive testing: unit to integration
+
+## Enhancing tests reliability with mutation testing
+
+## Automating code quality
 
 ## [TL-TR] Delivery Process Steps Summary
 
@@ -116,6 +221,11 @@ suitable for projects of any size in today’s fast-paced tech environment.
     7. Implement the repositories' unit/integration tests
     8. Implement BDD integration tests for key scenarios
     9. Verify coverage and test strength + improve/extend tests to cover mutations (CI Quality gate)
+
+TODO - include additional aspects in the process and correct the example:
+- include non-functional requirements like performance, security, usability, and scalability. They should be defined in the design phase and 
+- add feasibility analysis step that 
+
 
 ## Example Project Introduction
 
@@ -233,8 +343,9 @@ This section summarizes steps that are required to prepare the example project a
 - [ ] Describe basic terms: BDD, mutational testing
 - [ ] Describe some history and evolution of approaches I take
 - [ ] List of useful resources
-- [ ] Should I always use all the tools? 
-- [ ] Describe what problems they solve, and what are benefits from different stakeholders perspective (dev/QA/product owner, project manager)
+- [ ] Should I always use all the tools?
+- [ ] Describe what problems they solve, and what are benefits from different stakeholders perspective (dev/QA/product
+  owner, project manager)
 - [ ] General hints
 - [ ] Comment on alternative tools (Gherkin, other mutation testing frameworks)
 - [ ] Ask friends for review and feedback ;)
