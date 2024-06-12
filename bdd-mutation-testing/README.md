@@ -1,4 +1,4 @@
-# Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond
+# Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, Mutation Testing and Beyond
 
 ## Too Long To Read? (TL-TR)
 
@@ -56,7 +56,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 **Table of contents**
 
 <!-- TOC -->
-* [Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, and Beyond](#full-spectrum-software-testing-mastering-modern-development-with-bdd-modularity-and-beyond)
+* [Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, Mutation Testing and Beyond](#full-spectrum-software-testing-mastering-modern-development-with-bdd-modularity-mutation-testing-and-beyond)
   * [Too Long To Read? (TL-TR)](#too-long-to-read-tl-tr)
   * [Introduction](#introduction)
   * [What problems are solved by software development techniques proposed in this article](#what-problems-are-solved-by-software-development-techniques-proposed-in-this-article)
@@ -71,6 +71,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [Building a modular architecture](#building-a-modular-architecture)
   * [The role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
     * [Advantages of BDD](#advantages-of-bdd)
+    * [Tips for creating good BDD scenarios](#tips-for-creating-good-bdd-scenarios)
   * [Comprehensive testing: unit to integration](#comprehensive-testing-unit-to-integration)
   * [Enhancing tests reliability with mutation testing](#enhancing-tests-reliability-with-mutation-testing)
   * [Automating code quality](#automating-code-quality)
@@ -219,12 +220,69 @@ implementation details (how it happens).
 - **User-Centric Approach:** By prioritizing user-focused outcomes, BDD ensures that the software delivers value to
   end-users, aligning development efforts with business objectives.
 
-**Summary:**
-
 BDD shifts the focus from how features are implemented to what the features should achieve, aligning development efforts
 with business goals and user needs.
 This approach not only improves code quality and maintainability but also fosters
 better communication and collaboration among all stakeholders involved in the software development process.
+
+### Tips for creating good BDD scenarios
+
+1. **Focus on User Behavior:**
+    - Write scenarios from the user's perspective, describing how they interact with the system and what they expect as
+      outcomes.
+
+2. **Use Clear and Simple Language:**
+    - Avoid technical jargon and complex sentences. Use simple and clear language that can be easily understood by all
+      stakeholders.
+
+3. **Follow the Given-When-Then Structure:**
+    - Use the Given-When-Then format to structure scenarios:
+        - **Given:** the initial context or setup.
+        - **When:** the action or event that triggers the behavior.
+        - **Then:** the expected outcome or result.
+
+4. **Be Specific and Concrete:**
+    - Provide specific details and examples to avoid ambiguity. Clearly define inputs, actions, and expected results.
+
+5. **Keep Scenarios Focused:**
+    - Each scenario should test one specific behavior or feature. Avoid combining multiple behaviors into a single
+      scenario.
+
+6. **Avoid Implementation Details:**
+    - Focus on what the system should do, not how it should do it. Keep scenarios high-level and outcome-focused.
+
+7. **Show Relevant Data:**
+    - In the `Given` section, show relevant data and hide irrelevant data. Use templates with reasonable defaults and
+      only set values that alter the behavior under test.
+
+8. **Collaborate with Stakeholders:**
+    - Involve developers, testers, business analysts, and other stakeholders in writing and reviewing scenarios to
+      ensure they capture the correct requirements and expectations.
+
+9. **Prioritize User Value:**
+    - Write scenarios that reflect the most valuable and critical user interactions first. Focus on behaviors that
+      deliver the most significant impact to users.
+
+10. **Review and Refine:**
+    - Regularly review and refine scenarios to ensure they remain relevant and accurate as the project evolves.
+
+11. **Use Consistent Terminology:**
+    - Use consistent terminology across scenarios to avoid confusion and ensure clarity. Define key terms and use them
+      consistently.
+
+12. **Leverage Examples:**
+    - Use concrete examples to illustrate abstract concepts.
+      Examples help in clarifying expectations and reducing misunderstandings.
+
+13. **Automate Scenarios:**
+    - Automate BDD scenarios using appropriate tools and frameworks to ensure they are regularly executed and validated
+      as part of the development process.
+
+14. **Gherkin is Not a Requirement for BDD:**
+    - You can write BDD scenarios using plain xUnit or other testing frameworks by following the above tips
+      and extracting test steps into well-named methods
+      that represent high-level concepts and hide implementation details.
+      Spock is an excellent choice for this approach, as it enhances readability and simplifies development.
 
 ## Comprehensive testing: unit to integration
 
