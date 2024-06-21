@@ -1,9 +1,10 @@
 # Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, Mutation Testing and Beyond
 
-## Too Long To Read? (TL-TR)
+## Quick Start Guide (TL-TR)
 
 Want a quick start?
-Copy-paste below into terminal, review the table of content, and read other sections with **TL-TR** in name.
+Copy-paste below into terminal, review the table of content, and read other sections with **TL-TR** (Too Long To Read)
+in name.
 
 **Prerequisite**: make sure you use Java 21.
 
@@ -57,39 +58,42 @@ suitable for projects of any size in today’s fast-paced tech environment.
 
 <!-- TOC -->
 * [Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, Mutation Testing and Beyond](#full-spectrum-software-testing-mastering-modern-development-with-bdd-modularity-mutation-testing-and-beyond)
-  * [Too Long To Read? (TL-TR)](#too-long-to-read-tl-tr)
+  * [Quick Start Guide (TL-TR)](#quick-start-guide-tl-tr)
   * [Introduction](#introduction)
-  * [What problems are solved by software development techniques proposed in this article](#what-problems-are-solved-by-software-development-techniques-proposed-in-this-article)
-    * [Communication gaps between developers, testers, and non-technical stakeholders](#communication-gaps-between-developers-testers-and-non-technical-stakeholders)
-    * [Missing or insufficient business requirements](#missing-or-insufficient-business-requirements)
-    * [Late changes to business requirements](#late-changes-to-business-requirements)
-    * [Poor quality of tests](#poor-quality-of-tests)
-    * [Difficulty in refactoring](#difficulty-in-refactoring)
-    * [Long build times](#long-build-times)
-    * [Big ball of mud](#big-ball-of-mud)
-    * [Cognitive overload](#cognitive-overload)
-  * [Building a modular architecture](#building-a-modular-architecture)
-  * [The role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
+  * [Problems Addressed by Modern Software Development Techniques](#problems-addressed-by-modern-software-development-techniques)
+    * [Communication Gaps Between Developers, Testers, and Stakeholders](#communication-gaps-between-developers-testers-and-stakeholders)
+    * [Missing or Insufficient Business Requirements](#missing-or-insufficient-business-requirements)
+    * [Late Changes to Business Requirements](#late-changes-to-business-requirements)
+    * [Poor Quality of Tests](#poor-quality-of-tests)
+    * [Difficulty in Refactoring](#difficulty-in-refactoring)
+    * [Long Build Times](#long-build-times)
+    * [Big Ball of Mud](#big-ball-of-mud)
+    * [Cognitive Overload](#cognitive-overload)
+  * [Building a Modular Architecture](#building-a-modular-architecture)
+    * [Characteristics of a Good Module](#characteristics-of-a-good-module)
+    * [Structuring a Project for Modular Architecture](#structuring-a-project-for-modular-architecture)
+    * [Transitioning from Modular Monolith to Microservices](#transitioning-from-modular-monolith-to-microservices)
+  * [The Role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
     * [Advantages of BDD](#advantages-of-bdd)
-    * [Tips for creating good BDD scenarios](#tips-for-creating-good-bdd-scenarios)
-  * [Comprehensive testing: unit to integration](#comprehensive-testing-unit-to-integration)
-  * [Enhancing tests reliability with mutation testing](#enhancing-tests-reliability-with-mutation-testing)
-  * [Automating code quality](#automating-code-quality)
+    * [Tips for Creating Effective BDD Scenarios](#tips-for-creating-effective-bdd-scenarios)
+  * [Comprehensive Testing: From Unit to Integration](#comprehensive-testing-from-unit-to-integration)
+  * [Enhancing Test Reliability with Mutation Testing](#enhancing-test-reliability-with-mutation-testing)
+  * [Automating Code Quality](#automating-code-quality)
   * [[TL-TR] Delivery Process Steps Summary](#tl-tr-delivery-process-steps-summary)
-  * [Example Project Introduction](#example-project-introduction)
+  * [Example Project Overview](#example-project-overview)
   * [[TL-TR] Project Structure and Execution](#tl-tr-project-structure-and-execution)
-    * [Build project and review test reports](#build-project-and-review-test-reports)
-    * [Key setup required to introduce in your project](#key-setup-required-to-introduce-in-your-project)
+    * [Build the Project and Review Test Reports](#build-the-project-and-review-test-reports)
+    * [Key Setup Requirements for Your Project](#key-setup-requirements-for-your-project)
   * [Key Lessons and Evolving Strategies](#key-lessons-and-evolving-strategies)
-  * [I like this approach! How to convince others to use it?](#i-like-this-approach-how-to-convince-others-to-use-it)
+  * [How to Advocate for This Approach](#how-to-advocate-for-this-approach)
   * [[TL-TR] Final Thoughts and Future Directions](#tl-tr-final-thoughts-and-future-directions)
   * [Appendix and Additional Resources](#appendix-and-additional-resources)
   * [TODO](#todo)
 <!-- TOC -->
 
-## What problems are solved by software development techniques proposed in this article
+## Problems Addressed by Modern Software Development Techniques
 
-### Communication gaps between developers, testers, and non-technical stakeholders
+### Communication Gaps Between Developers, Testers, and Stakeholders
 
 **Problem:** Causes misunderstandings and poor information flow.
 
@@ -100,7 +104,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 - Misalignment of project goals with stakeholder expectations causes rework and delays.
 - Lack of visibility into the development process results in unmet business needs.
 
-### Missing or insufficient business requirements
+### Missing or Insufficient Business Requirements
 
 **Problem:** Causes waste and delays due to changes in requirements, rework, discussions, and clarifications.
 
@@ -113,7 +117,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 - Increased risk of delivering a product that does not meet business needs.
 - Higher chances of miscommunication between team members and stakeholders.
 
-### Late changes to business requirements
+### Late Changes to Business Requirements
 
 **Problem:** Causes delay and waste due to rework required.
 
@@ -125,7 +129,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 - Reduced focus on quality as teams rush to implement changes.
 - Difficulty in maintaining consistent project progress.
 
-### Poor quality of tests
+### Poor Quality of Tests
 
 **Problem:** Despite high coverage, tests are not detecting bugs.
 
@@ -137,7 +141,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 - Erosion of stakeholder trust in the development process.
 - Inefficiencies in the development cycle as poor tests provide misleading results.
 
-### Difficulty in refactoring
+### Difficulty in Refactoring
 
 **Problem:** Caused by tests focusing on the implementation details instead of the requirements.
 
@@ -149,7 +153,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
 - Slower development pace as code becomes harder to maintain and extend.
 - Difficulty in onboarding new developers due to a complex and rigid codebase.
 
-### Long build times
+### Long Build Times
 
 **Problem:** Too much integration or end-to-end (e2e) testing increases the code-test cycle, slowing down the process
 and discouraging the use of TDD/BDD.
@@ -162,7 +166,7 @@ and discouraging the use of TDD/BDD.
 - Longer feedback loop, making it harder to detect and fix issues early.
 - Increased frustration and decreased morale among developers.
 
-### Big ball of mud
+### Big Ball of Mud
 
 **Problem:** No real or clear structure or architecture in the project, making it hard to maintain and extend.
 
@@ -174,7 +178,7 @@ and discouraging the use of TDD/BDD.
 - Difficulty in scaling the project as it grows.
 - Increased onboarding time for new developers.
 
-### Cognitive overload
+### Cognitive Overload
 
 **Problem:** Large modules with wide responsibilities and numerous dependencies and connections, leading to cognitive
 overload.
@@ -191,9 +195,68 @@ overload.
 - The cognitive load from dealing with complex, large modules stifles creativity and innovation, leading to lower
   quality solutions and less effective problem-solving.
 
-## Building a modular architecture
+## Building a Modular Architecture
 
-## The role of Behavior Driven Development (BDD)
+Modular architecture greatly improves the delivery process. It reduces complexity and cognitive overload, and increases
+testability and maintainability.
+
+### Characteristics of a Good Module
+
+- **Single Responsibility:** Ideally focused around an action or step in a process (verbs) rather than entities (nouns).
+- **Well-Defined Public API:** Exposes the functionality provided by the module to the outside world.
+- **Encapsulation:** Internal implementation details are hidden behind the public API.
+- **Loosely Coupled:** Depends only on the public APIs of other modules.
+- **High Cohesion:** Bundles together related aspects.
+- **Independent Data Storage:** Persisted data is independent of other modules and is accessible only via the module's
+  public API.
+
+### Structuring a Project for Modular Architecture
+
+There are many possible structures for a project that embraces modular architecture. One effective approach is using a
+single package when working with Java (and this can be applied to other languages as well).
+
+The following are the building blocks of a module in this approach:
+
+- **Public API:** Public Java access.
+    - **Facade:** Exposes the methods to the outside world of the module.
+    - **DTOs:** Used in the facade to expose data to the outside world.
+- **Internal Implementation:** Package-private Java access.
+    - **Module Configuration:** A factory class that constructs the module facade and the module's internal
+      dependencies (repositories, etc.). It also shows the external dependencies required for the module.
+    - **Internal Dependencies Interfaces:** For example, the API of repositories, message/event publishers, etc.
+    - **Internal Implementation Classes:**
+        - Entities
+        - Repositories implementation
+        - Services (if required, a small module can have all the "service" logic directly in the facade)
+        - ...
+- **Glue Code Exposing Public API via Required Protocols:** Separate package with all classes in package-private scope.
+    - **Message/Event Consumers:** Consume the event and call the module's public API (facade).
+    - **gRPC/GraphQL/REST Controllers (etc.):** Convert external synchronous calls into the public API (facade) calls.
+
+[//]: # (TODO - provide example structure + finalize above description)
+
+Having all classes related to a module in one package may feel odd at first. We've been taught at universities and
+courses to have separate packages for entities, repositories, services, etc. You might also think that you'll end up
+with too many classes in a single package and that it will be hard to navigate.
+
+However, when modules are focused around behavior/process steps/verbs (for example, `user-registration`) instead of
+entities/nouns (`user`), you'll discover that the scope of a module is usually narrow and contains a manageable number
+of classes (typically 1–3 dozen). If you create a module that has significantly more classes, then it's probably taking
+on too much responsibility and should be split into several modules.
+
+### Transitioning from Modular Monolith to Microservices
+
+Embracing modular architecture has one more benefit. If you find a good reason to extract some functionality as a
+separate microservice, it's easier than extracting it from a big ball of mud.
+
+In theory, you cut the module and paste it into a new repository. However, it's not always straightforward due to
+differences between local modules and microservices:
+
+1. Local calls are much faster.
+2. Local calls are free from network issues.
+3. Local calls share transactions.
+
+## The Role of Behavior Driven Development (BDD)
 
 Behavior Driven Development (BDD) focuses on software behaviors (features) rather than implementation details. The
 perspective to take is: what is the desired outcome? BDD tests do not concern themselves with how the behavior is
@@ -225,7 +288,7 @@ with business goals and user needs.
 This approach not only improves code quality and maintainability but also fosters
 better communication and collaboration among all stakeholders involved in the software development process.
 
-### Tips for creating good BDD scenarios
+### Tips for Creating Effective BDD Scenarios
 
 1. **Focus on User Behavior:**
     - Write scenarios from the user's perspective, describing how they interact with the system and what they expect as
@@ -284,11 +347,11 @@ better communication and collaboration among all stakeholders involved in the so
       that represent high-level concepts and hide implementation details.
       Spock is an excellent choice for this approach, as it enhances readability and simplifies development.
 
-## Comprehensive testing: unit to integration
+## Comprehensive Testing: From Unit to Integration
 
-## Enhancing tests reliability with mutation testing
+## Enhancing Test Reliability with Mutation Testing
 
-## Automating code quality
+## Automating Code Quality
 
 ## [TL-TR] Delivery Process Steps Summary
 
@@ -308,7 +371,7 @@ better communication and collaboration among all stakeholders involved in the so
 
 3. Select functionality subset for iteration, and:
     1. Extend the design with process(es) description to make sure that process aspects relevant for iteration are clear
-       and complete. 
+       and complete.
     2. Double check if UI mockups are available and confirmed by all stakeholders.
     3. Describe in BDD terms the expected behaviors of the components that have to be changed.
        Document any additional acceptance criteria that are not described in BDD scenarios.
@@ -324,7 +387,7 @@ better communication and collaboration among all stakeholders involved in the so
     13. Conduct retrospective to evaluate what went well, and what could be improved for future iterations. Capture
         lessons learned and plan improvement actions
 
-## Example Project Introduction
+## Example Project Overview
 
 Usually, tutorials and articles demonstrating some technique use simple examples
 not to distract the reader from the main point.
@@ -372,7 +435,7 @@ Please note that implementation will not provide full features scope but it
 
 ## [TL-TR] Project Structure and Execution
 
-### Build project and review test reports
+### Build the Project and Review Test Reports
 
 Run `./gradlew b` and review the test reports:
 
@@ -382,7 +445,7 @@ Run `./gradlew b` and review the test reports:
 - [Pitest report](./build/reports/pitest/index.html) - mutational tests report that shows the weak spots in BDD module
   unit tests
 
-### Key setup required to introduce in your project
+### Key Setup Requirements for Your Project
 
 TODO:
 
@@ -412,7 +475,7 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - use tmpfs in test containers to speedup tests
 - ...
 
-## I like this approach! How to convince others to use it?
+## How to Advocate for This Approach
 
 TODO: describe benefits from different perspectives
 (developer, tester, product owner, project manager)
