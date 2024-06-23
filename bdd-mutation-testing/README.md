@@ -238,10 +238,12 @@ The following are the building blocks of a module in this approach:
         - Repositories implementation
         - Services (if required, a small module can have all the "service" logic directly in the facade)
         - ...
-- **Exposing Public API via Required Protocols:** Separate subpackage packages with all classes in package-private scope.
-    - **Message/Event Consumers:** Consume the event and call the module's public API via facade (for example, `listeners` subpackage).
-    - **gRPC/GraphQL/REST Controllers (etc.):** Convert external synchronous calls into the public API (facade) calls (for example `web` subpackage).
-
+- **Exposing Public API via Required Protocols:** Separate subpackage packages with all classes in package-private
+  scope.
+    - **Message/Event Consumers:** Consume the event and call the module's public API via facade (for
+      example, `listeners` subpackage).
+    - **gRPC/GraphQL/REST Controllers (etc.):** Convert external synchronous calls into the public API (facade) calls (
+      for example `web` subpackage).
 
 #### Example project structure
 
@@ -391,6 +393,45 @@ better communication and collaboration among all stakeholders involved in the so
 
 ## Comprehensive Testing: From Unit to Integration
 
+There are only two types of tests: very fast and very slow. We want to test as many behaviors as possible using very
+fast tests, as we want to have multiple scenarios without extending the waiting time during the red-green-refactor cycle
+of TDD.
+
+To keep the tests running very fast, we need to eliminate any I/O from the tests—they must run purely in memory.
+
+A great way to have very fast and valuable behavior-driven tests is through unit tests where the module is treated as
+the unit under test.
+Using the modular architecture described above, this is relatively easy.
+We can mock other modules'
+facades and encapsulate any external dependencies (like REST APIs, event publishers, etc.) in interfaces that can be
+easily mocked.
+
+On the other hand, any internal I/O-dependent logic like storage/repositories must be encapsulated in interfaces with
+two implementations that work identically from a behavior perspective:
+
+1. **In-Memory Implementation:** Superfast and can be used in very fast tests.
+   It can even be used in a demo version of the app!
+2. **Persistent Implementation:** Uses real databases/storages and is used in integration tests and in the production setup.
+
+Taking this approach gives us the opportunity to test a great number of business behaviors using very fast unit tests!
+
+We just need to add a few happy path scenarios to our integration tests suite. Integration tests should use external
+APIs as much as possible, for example:
+
+1. Call real REST API
+2. Publish/listen to real events on Kafka
+3. Mock external system REST API with Wiremock
+
+An additional key aspect is that in tests, we have to use the module configuration class to instantiate a fully
+operational module facade.
+It should have two methods:
+
+1. A method that creates the facade and takes the required dependencies (this is used in integration tests and in
+   production environments).
+2. A method that calls the first one but creates in-memory internal dependencies (external dependencies still have to be
+   provided).
+   This method is used by very fast unit tests.
+
 ----
 
 ## Enhancing Test Reliability with Mutation Testing
@@ -473,18 +514,18 @@ Please note that implementation will not provide full features scope but it
     - **Step 3.5 example: Implement module unit BDD scenarios and design module facade API**
         - Checkout tag: `git checkout bdd-iteration1-step3.5`
         -
-        See [AccumulatePointsSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsSpec.groovy)
+      See [AccumulatePointsSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsSpec.groovy)
     - **Step 3.6 example: Implement the module facade that fulfills all the module unit BDD specifications**
         - Checkout tag `git checkout bdd-iteration1-step3.6`
           See [classes in `pl.jcw.example.bddmutation.accumulatepoints` package](src/main/java/pl/jcw/example/bddmutation/accumulatepoints)
     - **Step 3.7 example: Implement the repositories unit/integration tests**
         - Checkout tag `git checkout bdd-iteration1-step3.7`
         -
-        See [AccumulatedPointsRepositorySpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatedPointsRepositorySpec.groovy)
+      See [AccumulatedPointsRepositorySpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatedPointsRepositorySpec.groovy)
     - **Step 3.8 example: Implement BDD integration tests for key scenarios**
         - Checkout tag `git checkout bdd-iteration1-step3.8`
         -
-        See [AccumulatePointsIntegrationSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsIntegrationSpec.groovy)
+      See [AccumulatePointsIntegrationSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsIntegrationSpec.groovy)
 
 ----
 
@@ -530,7 +571,8 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade
   immediately)
 - use tmpfs in test containers to speedup tests
-- for calculations or algorithms create excel examples that demonstrate the logic and how it should work - confirm with domain expert that it works as expected and use it as base for future tests
+- for calculations or algorithms create excel examples that demonstrate the logic and how it should work - confirm with
+  domain expert that it works as expected and use it as base for future tests
 - ...
 
 ----
@@ -547,7 +589,6 @@ TODO: describe benefits from different perspectives
 ----
 
 ## Appendix and Additional Resources
-
 
 ----
 
