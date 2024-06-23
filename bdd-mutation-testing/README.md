@@ -25,6 +25,8 @@ echo "review jacoco reports (test coverage): ./build/reports/jacoco/test/html/in
 open ./build/reports/jacoco/test/html/index.html
 ```
 
+----
+
 ## Introduction
 
 **Note**: Short on time? Read **TL-TR** sections to get straight to the point. ;-)
@@ -72,6 +74,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [Building a Modular Architecture](#building-a-modular-architecture)
     * [Characteristics of a Good Module](#characteristics-of-a-good-module)
     * [Structuring a Project for Modular Architecture](#structuring-a-project-for-modular-architecture)
+      * [Example project structure](#example-project-structure)
     * [Transitioning from Modular Monolith to Microservices](#transitioning-from-modular-monolith-to-microservices)
   * [The Role of Behavior Driven Development (BDD)](#the-role-of-behavior-driven-development-bdd)
     * [Advantages of BDD](#advantages-of-bdd)
@@ -90,6 +93,8 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [Appendix and Additional Resources](#appendix-and-additional-resources)
   * [TODO](#todo)
 <!-- TOC -->
+
+----
 
 ## Problems Addressed by Modern Software Development Techniques
 
@@ -195,10 +200,12 @@ overload.
 - The cognitive load from dealing with complex, large modules stifles creativity and innovation, leading to lower
   quality solutions and less effective problem-solving.
 
+----
+
 ## Building a Modular Architecture
 
-Modular architecture greatly improves the delivery process. It reduces complexity and cognitive overload, and increases
-testability and maintainability.
+Modular architecture greatly improves the delivery process and software in many fields.
+It reduces complexity and cognitive overload, and increases testability and maintainability.
 
 ### Characteristics of a Good Module
 
@@ -217,10 +224,12 @@ single package when working with Java (and this can be applied to other language
 
 The following are the building blocks of a module in this approach:
 
-- **Public API:** Public Java access.
+- **Public API:** Public Java access
     - **Facade:** Exposes the methods to the outside world of the module.
+      Facade resides in the main module package, so it can access all module package private classes
     - **DTOs:** Used in the facade to expose data to the outside world.
-- **Internal Implementation:** Package-private Java access.
+      Extracted to a separate subpackage called `api` so it can be easily distinguished from implementation
+- **Internal Implementation:** Package-private Java access—all resides in the main module package
     - **Module Configuration:** A factory class that constructs the module facade and the module's internal
       dependencies (repositories, etc.). It also shows the external dependencies required for the module.
     - **Internal Dependencies Interfaces:** For example, the API of repositories, message/event publishers, etc.
@@ -229,11 +238,40 @@ The following are the building blocks of a module in this approach:
         - Repositories implementation
         - Services (if required, a small module can have all the "service" logic directly in the facade)
         - ...
-- **Glue Code Exposing Public API via Required Protocols:** Separate package with all classes in package-private scope.
-    - **Message/Event Consumers:** Consume the event and call the module's public API (facade).
-    - **gRPC/GraphQL/REST Controllers (etc.):** Convert external synchronous calls into the public API (facade) calls.
+- **Exposing Public API via Required Protocols:** Separate subpackage packages with all classes in package-private scope.
+    - **Message/Event Consumers:** Consume the event and call the module's public API via facade (for example, `listeners` subpackage).
+    - **gRPC/GraphQL/REST Controllers (etc.):** Convert external synchronous calls into the public API (facade) calls (for example `web` subpackage).
 
-[//]: # (TODO - provide example structure + finalize above description)
+
+#### Example project structure
+
+This example demonstrates the structure of a module
+that is receiving the `OrderCompletedEvent` and generates the invoice.
+Once invoice is generated it publishes the `InvoiceIssuedEvent`.
+It also provides a web API to fetch the invoices for a customer.
+
+```plaintext
+src
+└── main
+    └── java
+        └── com
+            └── example
+                └── issueinvoice
+                    ├── IssueInvoiceFacade.java [public]
+                    ├── api
+                    │   ├── InvoiceDTO.java [public]
+                    │   └── InvoiceIssuedEvent.java [public]
+                    ├── IssueInvoiceConfiguration.java
+                    ├── InvoiceRepository.java
+                    ├── Invoice.java
+                    ├── InvoiceRepositoryImpl.java
+                    ├── IssueInvoiceService.java
+                    ├── listeners
+                    │   └── OrderCompletedEventListener.java
+                    └── web
+                        ├── InvoiceController.java
+                        └── InvoiceGraphQLResolver.java
+```
 
 Having all classes related to a module in one package may feel odd at first. We've been taught at universities and
 courses to have separate packages for entities, repositories, services, etc. You might also think that you'll end up
@@ -255,6 +293,8 @@ differences between local modules and microservices:
 1. Local calls are much faster.
 2. Local calls are free from network issues.
 3. Local calls share transactions.
+
+----
 
 ## The Role of Behavior Driven Development (BDD)
 
@@ -347,11 +387,19 @@ better communication and collaboration among all stakeholders involved in the so
       that represent high-level concepts and hide implementation details.
       Spock is an excellent choice for this approach, as it enhances readability and simplifies development.
 
+----
+
 ## Comprehensive Testing: From Unit to Integration
+
+----
 
 ## Enhancing Test Reliability with Mutation Testing
 
+----
+
 ## Automating Code Quality
+
+----
 
 ## [TL-TR] Delivery Process Steps Summary
 
@@ -386,6 +434,8 @@ better communication and collaboration among all stakeholders involved in the so
     12. Collect user feedback, refine requirements and improve the system based on user experiences
     13. Conduct retrospective to evaluate what went well, and what could be improved for future iterations. Capture
         lessons learned and plan improvement actions
+
+----
 
 ## Example Project Overview
 
@@ -422,16 +472,21 @@ Please note that implementation will not provide full features scope but it
         - done in step 3.2 -> `git checkout bdd-iteration1-step3.2`
     - **Step 3.5 example: Implement module unit BDD scenarios and design module facade API**
         - Checkout tag: `git checkout bdd-iteration1-step3.5`
-        - See [AccumulatePointsSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsSpec.groovy)
+        -
+        See [AccumulatePointsSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsSpec.groovy)
     - **Step 3.6 example: Implement the module facade that fulfills all the module unit BDD specifications**
         - Checkout tag `git checkout bdd-iteration1-step3.6`
-        See [classes in `pl.jcw.example.bddmutation.accumulatepoints` package](src/main/java/pl/jcw/example/bddmutation/accumulatepoints)
+          See [classes in `pl.jcw.example.bddmutation.accumulatepoints` package](src/main/java/pl/jcw/example/bddmutation/accumulatepoints)
     - **Step 3.7 example: Implement the repositories unit/integration tests**
         - Checkout tag `git checkout bdd-iteration1-step3.7`
-        - See [AccumulatedPointsRepositorySpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatedPointsRepositorySpec.groovy)
+        -
+        See [AccumulatedPointsRepositorySpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatedPointsRepositorySpec.groovy)
     - **Step 3.8 example: Implement BDD integration tests for key scenarios**
         - Checkout tag `git checkout bdd-iteration1-step3.8`
-        - See [AccumulatePointsIntegrationSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsIntegrationSpec.groovy)
+        -
+        See [AccumulatePointsIntegrationSpec](src/test/groovy/pl/jcw/example/bddmutation/accumulatepoints/AccumulatePointsIntegrationSpec.groovy)
+
+----
 
 ## [TL-TR] Project Structure and Execution
 
@@ -453,6 +508,8 @@ TODO:
 - [ ] pitest
 - [ ] spock report + pitest hack
 
+----
+
 ## Key Lessons and Evolving Strategies
 
 TODO describe what I've tried over the years and comment on conclusions and lessons learned, for example:
@@ -473,16 +530,26 @@ TODO describe what I've tried over the years and comment on conclusions and less
 - enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade
   immediately)
 - use tmpfs in test containers to speedup tests
+- for calculations or algorithms create excel examples that demonstrate the logic and how it should work - confirm with domain expert that it works as expected and use it as base for future tests
 - ...
+
+----
 
 ## How to Advocate for This Approach
 
 TODO: describe benefits from different perspectives
 (developer, tester, product owner, project manager)
 
+----
+
 ## [TL-TR] Final Thoughts and Future Directions
 
+----
+
 ## Appendix and Additional Resources
+
+
+----
 
 ## TODO
 
