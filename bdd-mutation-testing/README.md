@@ -489,6 +489,24 @@ use the unit tests (see `excludedTestClasses` configuration in the project setup
 
 ## Automating Code Quality
 
+To maintain high code quality, it is essential to integrate static code analysis tools like Sonar into your CI pipeline.
+This integration provides immediate feedback on any changes made to the codebase. 
+Additionally,
+installing [SonarLint](https://www.sonarsource.com/products/sonarlint/) in your IDE allows you to see violations in
+real-time as you write code.
+
+Another important aspect of automating code quality is setting up an automated code formatter.
+The example project uses [Spotless](https://github.com/diffplug/spotless),
+a tool that automates code formatting and verifies during the
+build process whether the code is properly formatted.
+Spotless leverages various plugins for formatting logic, and the
+example project utilizes the [Google Java formatter](https://github.com/google/google-java-format).
+
+Additionally, you can enhance your workflow by setting up a pre-commit hook that formats the code before it is
+committed. This ensures that all code adheres to the formatting standards before being added to the repository.
+
+[//]: # (TODO describe how to implement a pre-commit hook)
+
 ----
 
 ## [TL-TR] Delivery Process Steps Summary
