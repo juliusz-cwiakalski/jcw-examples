@@ -411,7 +411,8 @@ two implementations that work identically from a behavior perspective:
 
 1. **In-Memory Implementation:** Superfast and can be used in very fast tests.
    It can even be used in a demo version of the app!
-2. **Persistent Implementation:** Uses real databases/storages and is used in integration tests and in the production setup.
+2. **Persistent Implementation:** Uses real databases/storages and is used in integration tests and in the production
+   setup.
 
 Taking this approach gives us the opportunity to test a great number of business behaviors using very fast unit tests!
 
@@ -435,6 +436,47 @@ It should have two methods:
 ----
 
 ## Enhancing Test Reliability with Mutation Testing
+
+Having good BDD descriptions and unit tests with high coverage alone is not enough.
+I've seen way too many tests that only check the status of the operation or that no error was thrown.
+This kind of test is created when there's pressure
+to have high code coverage instead of pressure to have high-quality tests.
+Focusing on code coverage alone is dangerous.
+It gives a false sense of safety—"we have 90% code coverage, so we have it all tested."
+One must understand that if
+assertions are poor, then even 100% code coverage will detect few bugs!
+
+Fortunately, there's a way to verify if test assertions are good: mutation testing.
+The idea is to break the production code on purpose (introduce code mutations) and check if the tests detect these bugs.
+If a test fails after the change (mutant is killed), it means the test is of high quality (can detect bugs).
+
+Manual modification and execution of tests are tedious and impractical.
+Fortunately, there are tools available to do this job for us automatically.
+In the example Java project, the [Pitest.org](https://pitest.org/) tool is used, but
+there are alternative solutions available for most popular languages.
+
+Pitest uses the code coverage to understand what tests are covering every line of code.
+Next, Pitest introduces code mutations in production code and runs the tests that are covering the changed line.
+Tests covering the line are executed
+until the first failure (mutant is killed, so the tests are good) or until all tests are executed (meaning that mutant
+survived and tests are poor).
+
+Example mutations can include inverting logical conditions, returning null, etc. See the
+full [list of mutations](https://pitest.org/quickstart/mutators/) for more details.
+
+Mutation testing seems to be a great approach to increasing the quality of our tests.
+However, there's a significant limitation resulting from how the solution works.
+As explained above, the same tests are repeated over and over again,
+which may take significant time if tests are slow.
+Because of this fact, mutation testing is suitable only for unit
+tests that are very fast.
+Integration tests usually take way too much time.
+There's another problem with combining integration testing with mutation testing.
+Usually, integration tests share some common state (especially when running in parallel).
+Introducing the mutations may break this state and cause great test instability.
+
+Fortunately, module unit tests described above work perfectly with mutation testing, as you can configure Pitest to only
+use the unit tests (see `excludedTestClasses` configuration in the project setup).
 
 ----
 
