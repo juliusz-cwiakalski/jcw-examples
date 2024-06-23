@@ -1,5 +1,12 @@
 # Full Spectrum Software Testing: Mastering Modern Development with BDD, Modularity, Mutation Testing and Beyond
 
+**NOTE**: This article is a work in progress. 
+Your feedback is more than welcome! 
+Don't hesitate
+to drop a comment in this [pull request](https://github.com/juliusz-cwiakalski/jcw-examples/pull/4/files)
+if you have any questions or suggestions!
+You may also raise the pull request. 
+
 ## Quick Start Guide (TL-TR)
 
 Want a quick start?
