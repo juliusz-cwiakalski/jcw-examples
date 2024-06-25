@@ -95,6 +95,9 @@ suitable for projects of any size in today’s fast-paced tech environment.
     * [Build the Project and Review Test Reports](#build-the-project-and-review-test-reports)
     * [Key Setup Requirements for Your Project](#key-setup-requirements-for-your-project)
   * [Key Lessons and Evolving Strategies](#key-lessons-and-evolving-strategies)
+    * [Mutation Testing Does Not Work Well with Integration Testing](#mutation-testing-does-not-work-well-with-integration-testing)
+    * [Class Unit Testing with Intensive Mocking Makes Refactoring Hard and Misses Many Bugs](#class-unit-testing-with-intensive-mocking-makes-refactoring-hard-and-misses-many-bugs)
+    * [Other lessons](#other-lessons)
   * [How to Advocate for This Approach](#how-to-advocate-for-this-approach)
   * [[TL-TR] Final Thoughts and Future Directions](#tl-tr-final-thoughts-and-future-directions)
   * [Appendix and Additional Resources](#appendix-and-additional-resources)
@@ -489,18 +492,19 @@ use the unit tests (see `excludedTestClasses` configuration in the project setup
 
 ## Automating Code Quality
 
-To maintain high code quality, it is essential to integrate static code analysis tools like Sonar into your CI pipeline.
+To maintain high code quality, it is helpful to integrate static code analysis tools like Sonar into your CI pipeline.
 This integration provides immediate feedback on any changes made to the codebase. 
 Additionally,
 installing [SonarLint](https://www.sonarsource.com/products/sonarlint/) in your IDE allows you to see violations in
 real-time as you write code.
 
 Another important aspect of automating code quality is setting up an automated code formatter.
+This saves time during development (no decisions about how to format) and code reviews (no comments about formatting).
 The example project uses [Spotless](https://github.com/diffplug/spotless),
 a tool that automates code formatting and verifies during the
 build process whether the code is properly formatted.
 Spotless leverages various plugins for formatting logic, and the
-example project utilizes the [Google Java formatter](https://github.com/google/google-java-format).
+example project uses the [Google Java formatter](https://github.com/google/google-java-format).
 
 Additionally, you can enhance your workflow by setting up a pre-commit hook that formats the code before it is
 committed. This ensures that all code adheres to the formatting standards before being added to the repository.
@@ -615,15 +619,87 @@ TODO:
 - [ ] spock parallelization
 - [ ] pitest
 - [ ] spock report + pitest hack
+- [ ] spotless + pre-commit hook
+- [ ] setup for maven project
 
 ----
 
 ## Key Lessons and Evolving Strategies
 
-TODO describe what I've tried over the years and comment on conclusions and lessons learned, for example:
+Over time, I've experimented with a number of approaches and techniques in software development.
+Some ideas turned out to be great, others turned out to be the opposite.
+This section summarizes the most important lessons I've learned.
 
-- mutation testing does not work with integration testing
-- class unit testing + mocking brings little value + cements the code (hard refactoring)
+### Mutation Testing Does Not Work Well with Integration Testing
+
+The headline is not entirely true. Mutation tests do work with integration tests. Mostly...
+
+The main problem here is execution time.
+As explained in the section about mutation testing,
+the same tests could be re-executed multiple times on multiple versions of mutated production code.
+Integration tests are slow.
+Repeating them multiple times makes the build super slow.
+Build time can easily take 30 minutes... or 60 minutes... or...
+
+Another aspect is that some mutations may silently break the shared state that is usually used in integration tests (for
+example, the database), which is even more frustrating as you start to get unstable or false results.
+
+**Key takeaway:** After initial success with making integration and mutation tests work together (which looked
+promising), we decided to exclude integration tests due to long build times and instability.
+
+### Class Unit Testing with Intensive Mocking Makes Refactoring Hard and Misses Many Bugs
+
+In the past, writing tests was not very popular.
+When I started my career in 2007, some degree of testing was used,
+but it was not uncommon to rely mostly on manual testing.
+Many of my friends working in different companies experienced the same.
+
+Over time, it became clear that this approach was unsustainable.
+Long release cycles and many regression bugs forced us to look for better ways of working.
+At some point, unit tests started to gain popularity.
+They promised stable and bug-free releases and short testing times.
+Code coverage often became a key metric that developers (and managers) started focusing on.
+
+There was a strong emphasis on making unit tests focus solely on a unit, and classes seemed to be an obvious choice.
+Of course, unit tests must be stable and fast—so we started mocking their dependencies to control them.
+In projects focusing on these two concepts—mocking dependencies and achieving high code coverage—unit tests turned out
+to be problematic:
+
+1. Tests were green with mocked dependencies, but when we plugged in real implementations, it turned out that they
+   behaved differently than mocks and did not work well together.
+   Despite having a huge test suite, many bugs still made it into production.
+2. Creating unit tests with many mocks is time-consuming and tedious, especially when the design is poor, and classes
+   have many dependencies.
+3. The worst problem is that this approach makes changes and refactoring very hard.
+   Moving logic around, extracting classes, etc., requires a lot of refactoring on the unit test side as well.
+   Over time, this issue makes the project an unmaintainable nightmare as no one wants to improve it.
+
+These problems led to frustration and undermined the value of testing from many developers' perspectives.
+
+After years of writing poor unit tests and feeling frustrated each time I had to change something, I discovered that
+unit tests are great when we change the "unit."
+If you take a module (as described in the section about modular architecture) as a unit under test,
+then all the problems listed above disappear.
+The module has a narrow and well-defined API that encapsulates all internal details.
+Using only this API in unit tests makes it straightforward to refactor the internal structure and improve the code.
+Since we're using real implementations of internal building blocks, we are sure they work well together.
+Additionally, we save time with easier mocking as we only have to mock
+external dependencies and not internal class implementations.
+
+Another discovery I made was that Behavior Driven Development (BDD) works great with unit tests!
+When I started focusing only on expected behaviors and outcomes in tests and ignored internal implementation details,
+logic became easier to refactor.
+I could completely change the internal implementation as long as the behavior remained unchanged from the external
+client's perspective.
+Another great benefit of BDD is that it can be used as a requirement specification.
+
+**Key takeaway:** Create unit tests for whole modules and use BDD for that.
+Unit tests for single classes or methods make sense
+if a class has no dependencies and/or is responsible for very complex logic (like calculations, algorithms, etc.).
+
+### Other lessons
+
+
 - test pyramid -> test diamond -> back to test pyramid—when to use what?
 - integration tests fits CRUDs, unit tests when there's logic
 - there are two types of tests—fast and slow
