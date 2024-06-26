@@ -97,6 +97,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
   * [Key Lessons and Evolving Strategies](#key-lessons-and-evolving-strategies)
     * [Mutation Testing Does Not Work Well with Integration Testing](#mutation-testing-does-not-work-well-with-integration-testing)
     * [Class Unit Testing with Intensive Mocking Makes Refactoring Hard and Misses Many Bugs](#class-unit-testing-with-intensive-mocking-makes-refactoring-hard-and-misses-many-bugs)
+    * [Testing in Production is an Option](#testing-in-production-is-an-option)
     * [Other lessons](#other-lessons)
   * [How to Advocate for This Approach](#how-to-advocate-for-this-approach)
   * [[TL-TR] Final Thoughts and Future Directions](#tl-tr-final-thoughts-and-future-directions)
@@ -697,8 +698,31 @@ Another great benefit of BDD is that it can be used as a requirement specificati
 Unit tests for single classes or methods make sense
 if a class has no dependencies and/or is responsible for very complex logic (like calculations, algorithms, etc.).
 
-### Other lessons
+### Testing in Production is an Option
+Traditionally, the prevailing mindset in software development has been to prevent bugs from ever reaching production.
+This approach often involves extensive testing and quality assurance processes aimed at delivering a completely bug-free
+product.
 
+However, my perspective on this changed when I joined a company with a continuous deployment pipeline and the ability to
+roll back changes within minutes. This company also had a robust monitoring and alerting system based on metrics and
+logs. If the error rate suddenly increased or a critical metric deviated from the norm, a PagerDuty alert would be
+triggered. The on-call engineer could quickly assess the situation and decide whether to roll back the deployment to
+minimize impact.
+
+Additionally, the development process was extremely agile, enabling bug fixes to be implemented and deployed within a
+very short time frame—sometimes as quickly as 30–60 minutes for simple cases.
+
+With this approach, we found that the cost of a bug in production was relatively small and acceptable. This allowed us
+to deliver new features and updates much faster.
+
+**Key Takeaway:** Understand the cost of bugs in your specific context.
+Consider the trade-offs between delivering a bug-free release
+and saving time by accepting some level of bugs while having a solid monitoring and rollback process in place.
+The cost of bugs can vary depending on the context, so different approaches might be suitable for different
+components or systems (e.g., microservices, critical systems).
+This strategy can significantly accelerate your delivery process while maintaining acceptable quality levels.
+
+### Other lessons
 
 - test pyramid -> test diamond -> back to test pyramid—when to use what?
 - integration tests fits CRUDs, unit tests when there's logic
@@ -709,7 +733,6 @@ if a class has no dependencies and/or is responsible for very complex logic (lik
 - some tests can be shared in unit and integration tests (spock traits)
 - components should be responsible for logic (verbs) not for things (nouns)
 - observability is important
-- testing on production is also worth considering
 - integration testing via facade vs REST/message broker etc?
 - enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade
   immediately)
