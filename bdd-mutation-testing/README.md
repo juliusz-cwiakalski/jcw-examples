@@ -761,18 +761,22 @@ Remember, high code coverage does not guarantee high-quality tests or bug-free s
 
 - test pyramid -> test diamond -> back to test pyramid—when to use what?
 - integration tests fits CRUDs, unit tests when there's logic
-- there are two types of tests—fast and slow
+- there are two types of tests—fast (no I/O) and slow (with I/O), cover as much as possible in fast tests
 - unit and integration tests alone are not enough -> e2e / contract testing / manual testing still needed
-- test execution and time matters! (time budget etc.)
-- some tests can be shared in unit and integration tests (spock traits)
+- test execution and time matters! set time budget on tests execution: five minutes? Sixty seconds? Thirty seconds? How
+  long can a developer wait before getting bored and looses focus?
+- some tests can be shared in unit and integration tests, good example is repository tests that are executed against in
+  memory repository and against real repository
 - components should be responsible for logic (verbs) not for things (nouns)
 - observability is important
 - integration testing via facade vs REST/message broker etc?
 - enable visibility of public/package private scope in your IDE project explorer (so you can spot the facade
   immediately)
 - use tmpfs in test containers to speedup tests
-- for calculations or algorithms create excel examples that demonstrate the logic and how it should work - confirm with
+- for calculations or algorithms, create excel examples that demonstrate the logic and how it should work—confirm with
   domain expert that it works as expected and use it as base for future tests
+- two weeks of development may save one day of analysis... refine stories and involve all stakeholders (devs/QAs/product
+  owners/business owners, etc.) before you start development
 - ...
 
 ----
