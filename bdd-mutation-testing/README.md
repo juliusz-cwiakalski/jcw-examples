@@ -98,6 +98,7 @@ suitable for projects of any size in today’s fast-paced tech environment.
     * [Mutation Testing Does Not Work Well with Integration Testing](#mutation-testing-does-not-work-well-with-integration-testing)
     * [Class Unit Testing with Intensive Mocking Makes Refactoring Hard and Misses Many Bugs](#class-unit-testing-with-intensive-mocking-makes-refactoring-hard-and-misses-many-bugs)
     * [Testing in Production is an Option](#testing-in-production-is-an-option)
+    * [Code Coverage is Dangerous](#code-coverage-is-dangerous)
     * [Other lessons](#other-lessons)
   * [How to Advocate for This Approach](#how-to-advocate-for-this-approach)
   * [[TL-TR] Final Thoughts and Future Directions](#tl-tr-final-thoughts-and-future-directions)
@@ -722,13 +723,46 @@ The cost of bugs can vary depending on the context, so different approaches migh
 components or systems (e.g., microservices, critical systems).
 This strategy can significantly accelerate your delivery process while maintaining acceptable quality levels.
 
+### Code Coverage is Dangerous
+
+Understanding what code is covered by automated tests is a very helpful tool.
+Developers can review the newly created code coverage reports
+and figure out what other test scenarios might be worth implementing.
+When integrated with CI, it provides feedback and supports reviewers as an additional quality check.
+
+What is great about code coverage is that it's very precise and easy to check.
+Unfortunately, this ease of use can also be a curse.
+Because it's easy to measure, some organizations set code coverage as a goal in itself, rather than using it
+as a tool to achieve high-quality software.
+Setting goals on code coverage can lead to several pathologies, such as:
+
+- **Creation of Tests for Low-Logic Code:** Developers might create tests for code that has zero (e.g., getters) or
+  minimal logic because it's easier to test, instead of focusing on the challenging logic that truly needs testing.
+- **Neglecting Assertions:** Some developers might think, "The code is covered and does not blow up, so the goal is
+  achieved—what's the point of spending time on good assertions?"
+  This leads to poor tests that provide a false sense of security.
+  Fortunately, such tests can be detected with mutation testing (see above).
+- **Writing Superficial Tests:** To quickly increase coverage, developers might write tests that do not thoroughly check
+  the behavior of the code, resulting in tests that pass regardless of the actual correctness of the implementation.
+- **Ignoring Edge Cases:** Focusing on code coverage metrics might lead developers to ignore complex edge cases that are
+  harder to test but crucial for robustness.
+- **Test Code Bloat:** In pursuit of higher coverage, unnecessary and redundant tests may be created, leading to a
+  bloated test suite that is harder to maintain and slower to execute.
+
+**Key Takeaway:** Do not set goals on code coverage levels.
+Treat it as a tool that helps to understand what scenarios or edge cases may still be missing.
+Explain to managers and the team you work with why you're using code coverage (send them a link to this section).
+Build a culture where software quality is the goal and code coverage is just a tool.
+Focus on creating meaningful tests that thoroughly verify critical and complex logic.
+Use tools like mutation testing to ensure the quality of your tests.
+Remember, high code coverage does not guarantee high-quality tests or bug-free software.
+
 ### Other lessons
 
 - test pyramid -> test diamond -> back to test pyramid—when to use what?
 - integration tests fits CRUDs, unit tests when there's logic
 - there are two types of tests—fast and slow
 - unit and integration tests alone are not enough -> e2e / contract testing / manual testing still needed
-- code coverage alone is dangerous!
 - test execution and time matters! (time budget etc.)
 - some tests can be shared in unit and integration tests (spock traits)
 - components should be responsible for logic (verbs) not for things (nouns)
